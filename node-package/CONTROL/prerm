@@ -1,0 +1,16 @@
+#!/bin/sh
+# field-extensions 1:1.0.9 prerm ($1 = remove or upgrade): stop the service and put
+# the phones' normal DHCP back (undo cellular mode).
+[ -n "${IPKG_INSTROOT}" ] && exit 0
+echo "Field Extension: stopping the service..."
+if [ -x /etc/init.d/field-extensions ]; then
+	/etc/init.d/field-extensions stop >/dev/null 2>&1
+	/etc/init.d/field-extensions disable >/dev/null 2>&1
+fi
+# Never "stop" this one: its stop cuts the power. Disabling only removes the links.
+[ -x /etc/init.d/field-power-off ] && /etc/init.d/field-power-off disable >/dev/null 2>&1
+if command -v python3 >/dev/null 2>&1 && [ -d /opt/field-extensions/field_extension ]; then
+	PYTHONPATH=/opt/field-extensions python3 -m field_extension.eud restore >/dev/null 2>&1 ||
+		echo "Field Extension: could not check the phone DHCP settings (continuing)."
+fi
+exit 0

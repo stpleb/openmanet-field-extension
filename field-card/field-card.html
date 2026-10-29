@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Field Extension Field Card</title>
+<style>
+@page { size: letter; margin: 0.35in; }
+* { box-sizing: border-box; }
+body { font: 8.8pt/1.24 -apple-system, "Helvetica Neue", Arial, sans-serif; color: #111; margin: 0; }
+h1 { font-size: 17pt; margin: 0 0 2pt; letter-spacing: .5pt; }
+.sub { color: #555; font-size: 9pt; margin-bottom: 8pt; }
+h2 { font-size: 11pt; text-transform: uppercase; letter-spacing: 1pt; border-bottom: 1.5pt solid #0097a7; padding-bottom: 2pt; margin: 7pt 0 4pt; color: #00626d; }
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18pt; }
+table { border-collapse: collapse; width: 100%; }
+td { padding: 1.8pt 4pt; vertical-align: top; border-bottom: .5pt solid #ddd; }
+td:first-child { white-space: nowrap; width: 1%; }
+.dot { display: inline-block; width: 10pt; height: 10pt; border-radius: 50%; vertical-align: -1pt; margin-right: 4pt; border: .5pt solid #444; }
+ol, ul { margin: 0; padding-left: 14pt; }
+li { margin: 1.5pt 0; }
+.note { background: #f2f7f8; border-left: 3pt solid #0097a7; padding: 4pt 6pt; font-size: 9.5pt; margin-top: 5pt; }
+.warn { background: #fff6e5; border-left: 3pt solid #e69500; padding: 4pt 6pt; font-size: 9.5pt; margin-top: 5pt; }
+code { font: 9.5pt Menlo, monospace; }
+.foot { margin-top: 8pt; color: #666; font-size: 8pt; }
+</style></head><body>
+<h1>OPENMANET FIELD EXTENSION · FIELD CARD</h1>
+<div class="sub">Node web page: <b>http://&lt;node&gt;:8787</b> (default node 10.41.0.1) · OpenMANET page: <b>:8080</b> · ATAK plugin: ManetNode FE (PTT · STATUS · LORA · SET)</div>
+
+<div class="cols">
+<div>
+<h2>Status light</h2>
+<table>
+<tr><td><span class="dot" style="background:#b56cff"></span>Purple</td><td>Mesh + internet</td></tr>
+<tr><td><span class="dot" style="background:#00e676"></span>Green</td><td>Mesh only (other nodes heard)</td></tr>
+<tr><td><span class="dot" style="background:#00e5ff"></span>Cyan</td><td>Internet only: no mesh neighbours and no LoRa radio</td></tr>
+<tr><td><span class="dot" style="background:#4d8bff"></span>Blue slow blink</td><td>LoRa only: no mesh neighbours; the LoRa radio carries the team</td></tr>
+<tr><td><span class="dot" style="background:#ffb300"></span>Amber</td><td>No mesh, no internet, no LoRa</td></tr>
+<tr><td><span class="dot" style="background:#fff"></span>White</td><td>Maintenance: being updated or worked on. Don't unplug</td></tr>
+<tr><td><span class="dot" style="background:#ff3b4d"></span>Red solid</td><td>Starting up, or a fault</td></tr>
+<tr><td><span class="dot" style="background:#ff3b4d"></span>Red quick blink</td><td>Shutting down cleanly</td></tr>
+<tr><td><span class="dot" style="background:#ff3b4d"></span>Red pulse</td><td>Battery below 20 % (on battery)</td></tr>
+<tr><td><span class="dot" style="background:#ff3b4d"></span>Red fast blink</td><td>Battery critical: charge now</td></tr>
+<tr><td><span class="dot" style="background:#4d8bff"></span>Blue 2 s flash</td><td>GPS has a fix (every ~10 s, over the colour above)</td></tr>
+<tr><td><span class="dot" style="background:#00e676"></span>Green blinks</td><td>Charging: every 10 s, 1 blink per 20 % (1 = 0–20 %, 5 = 80–100 %)</td></tr>
+</table>
+<div class="note">Turn the light off or dim it: web page Status LED, or plugin SET tab.</div>
+
+<h2>Join a phone</h2>
+<ol>
+<li>Join the node's Wi-Fi (name on the web page, EUD Wi-Fi tile).</li>
+<li>Open ATAK. The ManetNode FE plugin finds the node by itself; the corner dot shows its light colour.</li>
+<li>No plugin? Open <b>http://10.41.0.1:8787</b> in the browser, or use the ManetNode app.</li>
+<li>Phone Internet: <b>AUTO</b> uses the node's internet when it has some, else the phone's cellular; <b>CELL</b> always uses cellular. Phones switch at their next Wi-Fi reconnect.</li>
+</ol>
+
+<h2>Charging &amp; power</h2>
+<ul>
+<li>Charge from the case port with a <b>5 V / 3 A</b> supply and a short cable. The battery tile shows % and time left (set the pack size: web page Maintenance).</li>
+<li>% shown while charging moves slowly on purpose; the voltage is the honest number (3.4–3.5 V ≈ 15–35 %).</li>
+<li>Auto power-on ON: the node starts by itself when the charger is plugged in after a full drain.</li>
+<li>Off: hold the PiSugar button (light blinks red, then off), or Shutdown in the plugin. On: short-press the button.</li>
+</ul>
+<div class="warn">Some USB-C chargers give 0 V to the case port until it has two 5.1 kΩ resistors (CC1→GND, CC2→GND). A USB-A-to-C cable always works.</div>
+</div>
+
+<div>
+<h2>LoRa (Meshtastic radio)</h2>
+<table>
+<tr><td><b>AUTO</b></td><td>Positions and chat go over LoRa when the mesh is down, or while a LoRa-only teammate is heard.</td></tr>
+<tr><td><b>ALWAYS</b></td><td>Also while the mesh is up.</td></tr>
+<tr><td><b>OFF</b></td><td>Radio left alone.</td></tr>
+<tr><td><b>DARK</b></td><td>Team channel only, frequency from the team name. Works with older nodes on a custom layout.</td></tr>
+<tr><td><b>COVERT</b></td><td>Team + public channel; your position never goes on the public channel. Public frequency.</td></tr>
+<tr><td><b>OPEN</b></td><td>Team + public channel; public radios see you. Public frequency.</td></tr>
+</table>
+<div class="warn">OPEN / COVERT move the radio to the public LongFast frequency: nodes on a custom layout stop hearing it. Use DARK in a mixed team.</div>
+<div class="note">"Change every node" ON sends team channel and mode changes to every node over LoRa. OFF changes only this node.</div>
+
+<h2>Add a LoRa-only teammate</h2>
+<ol>
+<li>They need a Meshtastic radio paired to their phone, ATAK, and the Meshtastic ATAK plugin.</li>
+<li>Plugin LORA tab → Team channel → <b>QR</b> (or web page → Share code). It holds the team key: only show it to your team.</li>
+<li>They scan it in the Meshtastic app (Channels → QR). Same region and speed as the team.</li>
+<li>Their dot and chat appear for everyone on the mesh; yours reach them over LoRa.</li>
+</ol>
+<div class="note">LoRa is slow (~1 kbit/s): positions about once a minute, chat up to 200 characters, map markers yes; photos, video, files and voice no.</div>
+
+<h2>Something's wrong?</h2>
+<ul>
+<li>Plugin says "not answering": check you're on the node's Wi-Fi; long-press the node name to set the address.</li>
+<li>Amber light: no other node heard. Move closer or check the other node is on.</li>
+<li>LoRa "not connected": reseat the radio's USB cable; the node retries and power-cycles the port itself.</li>
+<li>Node changes ask for the node password (same as the OpenMANET page).</li>
+</ul>
+</div>
+</div>
+<div class="foot">Field Extension for OpenMANET v1.0 · node package 1.0.9 · ATAK plugin ManetNode FE 1.4 · ManetNode app 8.3 · Keep with the node.</div>
+</body></html>

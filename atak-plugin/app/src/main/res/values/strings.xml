@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">ManetNode FE</string>
+    <!-- Name in ATAK's Plugins list; app_name is the Tools menu button -->
+    <string name="plugin_name">ManetNode FE</string>
+    <!-- description -->
+    <string name="app_desc">Status lights, power and node health for OpenMANET Field Extension nodes</string>
+
+
+
+
+</resources>

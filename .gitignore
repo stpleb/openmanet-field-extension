@@ -1,0 +1,14 @@
+.DS_Store
+build/
+.gradle/
+local.properties
+.takdev/
+__pycache__/
+*.apk
+*.ipk
+*.tar.gz
+*.keystore
+*.jks
+xcuserdata/
+DerivedData/
+ManetNode.app/

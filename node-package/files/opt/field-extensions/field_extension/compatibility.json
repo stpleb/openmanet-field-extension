@@ -1,0 +1,7 @@
+{
+  "_comment": "OpenMANET versions this Field Extension build has been run on. Edit as each version is tried on a node. status: tested | testing | broken",
+  "versions": {
+    "1.6.5": {"status": "tested", "detail": "Audited on the OpenMANET 1.6.5 base."},
+    "1.8.0": {"status": "tested", "detail": "Tested on OpenMANET 1.8.0 (Pi 4, HaLow MM6108 SPI)."}
+  }
+}

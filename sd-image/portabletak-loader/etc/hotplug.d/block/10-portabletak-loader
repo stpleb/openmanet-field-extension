@@ -1,0 +1,12 @@
+#!/bin/sh
+# PortableTAK loader hook: when a USB drive is plugged in, check it for a signed
+# PortableTAK node package (install or update PortableTAK on this node), then
+# start PortableTAK. Runs before 90-portabletak, which then stands aside.
+[ "$ACTION" = add ] && [ "$DEVTYPE" = partition ] || exit 0
+case "$DEVNAME" in sd*) ;; *) exit 0 ;; esac
+[ -x /usr/sbin/portabletak-loader ] || exit 0
+awk '$2=="/mnt/asgard"{f=1} END{exit !f}' /proc/mounts && exit 0   # a cartridge is running
+mkdir -p /tmp/portabletak
+[ -f /tmp/portabletak/hotplug-start ] && exit 0                       # one run per plug-in
+: > /tmp/portabletak/hotplug-start
+/usr/sbin/portabletak-loader scan </dev/null >/dev/null 2>&1 &

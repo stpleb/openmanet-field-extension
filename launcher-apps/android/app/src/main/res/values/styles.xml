@@ -1,0 +1,20 @@
+<resources>
+    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:colorAccent">@color/cyan</item>
+        <item name="android:alertDialogTheme">@style/FeDialog</item>
+    </style>
+    <!-- Every pop-up dialog in the app theme -->
+    <style name="FeDialog" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/fe_dialog_bg</item>
+        <item name="android:colorBackground">#07100f</item>
+        <item name="android:colorAccent">@color/cyan</item>
+        <item name="android:textColorPrimary">#d9e6ed</item>
+        <item name="android:textColorSecondary">#8fa7b2</item>
+        <item name="android:textColorAlertDialogListItem">#d9e6ed</item>
+    </style>
+    <color name="bg">#05080a</color>
+    <color name="cyan">#00e5ff</color>
+</resources>

@@ -1,0 +1,38 @@
+#!/bin/sh
+# field-extensions 1:1.0.9 preinst: back up the current install, then clear it so the
+# new files can go in (a manual copy or one left by a firmware update belongs to no package,
+# and opkg refuses to overwrite such files).
+[ -n "${IPKG_INSTROOT}" ] && exit 0
+FE=/opt/field-extensions
+BUNDLED=0
+
+if [ -d "$FE" ] || [ -f /etc/init.d/field-extensions ]; then
+	[ -x /etc/init.d/field-extensions ] && /etc/init.d/field-extensions stop >/dev/null 2>&1
+	mkdir -p /root
+	bak="/root/field-extensions.bak-$(date +%Y%m%d-%H%M%S).tgz"
+	list=
+	for p in "$FE"/* /etc/init.d/field-extensions /etc/init.d/field-power-off; do
+		[ -e "$p" ] || continue
+		[ "$p" = "$FE/pkgs" ] && continue   # the kept Python copy is large and not settings
+		list="$list ${p#/}"
+	done
+	if [ -n "$list" ]; then
+		# shellcheck disable=SC2086
+		if (cd / && tar -cf - $list) | gzip -c > "$bak"; then
+			echo "Field Extension: old version saved in $bak"
+		else
+			echo "Field Extension: could not save the old version (continuing)."
+		fi
+		# keep the three newest backups
+		ls -t /root/field-extensions.bak-*.tgz 2>/dev/null | tail -n +4 | while read -r old; do rm -f "$old"; done
+	fi
+	for p in "$FE"/*; do
+		[ -e "$p" ] || continue
+		if [ "$p" = "$FE/pkgs" ] && [ "$BUNDLED" != 1 ]; then
+			continue   # keep an offline Python copy this package does not replace
+		fi
+		rm -rf "$p"
+	done
+	rm -f /etc/init.d/field-extensions /etc/init.d/field-power-off
+fi
+exit 0

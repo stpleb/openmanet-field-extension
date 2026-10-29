@@ -1,0 +1,18 @@
+#!/bin/sh /etc/rc.common
+# Field Extensions: the last step of a shutdown that Field Extensions started (PiSugar
+# button, safe shutdown at low battery, or Shutdown on the web page). After the file
+# systems are read-only (umount runs at STOP=90) it turns the PiSugar's 5 V output off,
+# so the node is really off instead of halted and still draining the battery.
+# A plain reboot or a shutdown started any other way leaves no flag and is not touched.
+START=99
+STOP=95
+
+start() {
+	rm -f /tmp/fe-power-off
+}
+
+stop() {
+	[ -f /tmp/fe-power-off ] || return 0
+	sync
+	PYTHONPATH=/opt/field-extensions /usr/bin/python3 -m field_extension.pisugar_i2c cut-power
+}

@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Field Extension for OpenMANET Guide</title>
+<style>
+@page { size: letter; margin: 0.55in 0.6in 0.6in; }
+:root { --bg:#05080a; --panel:#0a1216; --line:#12434a; --cyan:#00e5ff; --text:#d9e6ed; --sub:#8fa7b2; --muted:#5c7682;
+        --ok:#00e676; --warn:#ffb300; --bad:#ff3b4d; --blue:#4d8bff; --purple:#b56cff; }
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body { background: transparent; }
+body { color: var(--text); font: 9.6pt/1.42 -apple-system, "Helvetica Neue", Arial, sans-serif; margin: 0; }
+h1 { font-size: 22pt; letter-spacing: 1.5pt; margin: 0 0 6pt; color: #fff; }
+h2 { font-size: 15pt; letter-spacing: 1.2pt; text-transform: uppercase; color: var(--cyan); margin: 0 0 8pt;
+     padding-bottom: 5pt; border-bottom: 1.5pt solid var(--cyan); break-after: avoid; }
+h3 { font-size: 11.5pt; color: #fff; margin: 14pt 0 4pt; break-after: avoid; }
+h3 .n { color: var(--cyan); margin-right: 4pt; }
+p { margin: 4pt 0 6pt; }
+.chapter { break-before: page; }
+.sub { color: var(--sub); }
+.small { font-size: 8.8pt; color: var(--sub); }
+code, .mono { font: 9pt Menlo, "SF Mono", monospace; color: #bfefff; }
+code { background: #0d1c22; padding: 0 3pt; border-radius: 3pt; }
+pre { font: 8.6pt/1.45 Menlo, monospace; background: #0b161b; border: 1pt solid var(--line); border-radius: 6pt;
+      padding: 7pt 9pt; white-space: pre-wrap; color: #bfefff; break-inside: avoid; }
+table { border-collapse: collapse; width: 100%; margin: 4pt 0 8pt; break-inside: avoid; }
+th { text-align: left; font-size: 8.5pt; letter-spacing: .8pt; text-transform: uppercase; color: var(--cyan);
+     border-bottom: 1pt solid var(--cyan); padding: 4pt 5pt; }
+td { padding: 4pt 5pt; border-bottom: .6pt solid #173038; vertical-align: top; }
+tr { break-inside: avoid; }
+td.k { white-space: nowrap; font-weight: 600; color: #fff; }
+ol, ul { margin: 3pt 0 7pt; padding-left: 16pt; }
+li { margin: 2.5pt 0; }
+.box { background: var(--panel); border: 1pt solid var(--line); border-radius: 8pt; padding: 8pt 11pt; margin: 8pt 0; break-inside: avoid; }
+.tip { border-left: 3pt solid var(--cyan); }
+.warn { border-left: 3pt solid var(--warn); }
+.danger { border-left: 3pt solid var(--bad); }
+.box b.t { display: block; font-size: 8.5pt; letter-spacing: 1pt; text-transform: uppercase; margin-bottom: 2pt; }
+.tip b.t { color: var(--cyan); } .warn b.t { color: var(--warn); } .danger b.t { color: var(--bad); }
+figure { margin: 8pt 0 10pt; text-align: center; break-inside: avoid; }
+figure img { max-width: 100%; border: 1pt solid var(--line); border-radius: 6pt; }
+figure svg { max-width: 100%; height: auto; }
+figcaption { font-size: 8.6pt; color: var(--sub); margin-top: 4pt; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; align-items: start; }
+.four { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8pt; align-items: start; }
+.shots figure { margin: 0; }
+.shots img { width: 100%; }
+.plg img { max-height: 1.95in; width: auto !important; max-width: 100%; }
+.two .shots img, .two figure img { max-height: 3.4in; width: auto; max-width: 100%; }
+.three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10pt; align-items: start; }
+.phone img { max-height: 4.3in; }
+.dot { display: inline-block; width: 9pt; height: 9pt; border-radius: 50%; vertical-align: -1pt; margin-right: 5pt; border: .6pt solid #000; }
+.kbd { display: inline-block; border: 1pt solid var(--cyan); color: var(--cyan); border-radius: 4pt; padding: 0 4pt; font-size: 8.5pt;
+       letter-spacing: .6pt; font-weight: 700; text-transform: uppercase; }
+.cover { height: 9.6in; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+.cover h1 { font-size: 34pt; letter-spacing: 3pt; }
+.cover .tag { color: var(--cyan); letter-spacing: 4pt; font-size: 11pt; text-transform: uppercase; margin-bottom: 26pt; }
+.cover .ver { color: var(--sub); margin-top: 26pt; line-height: 1.8; }
+.toc { columns: 2; column-gap: 24pt; }
+.toc div { break-inside: avoid; padding: 3pt 0; border-bottom: .6pt solid #173038; }
+.toc span { color: var(--cyan); display: inline-block; width: 18pt; font-weight: 700; }
+</style></head><body>
+
+<!-- ============================================================ COVER -->
+<section class="cover">
+  <svg width="150" height="130" viewBox="0 0 150 130" style="margin:0 auto 16pt">
+    <g stroke="#00e5ff" stroke-width="3" fill="none" stroke-linejoin="round">
+      <path d="M75 10 L140 120 L10 120 Z"/><path d="M75 10 L75 82 M10 120 L75 82 L140 120"/>
+    </g>
+    <g fill="#05080a" stroke="#00e5ff" stroke-width="3">
+      <circle cx="75" cy="10" r="8"/><circle cx="10" cy="120" r="8"/><circle cx="140" cy="120" r="8"/><circle cx="75" cy="82" r="8"/>
+    </g>
+  </svg>
+  <div class="tag">OpenMANET · Field Extension</div>
+  <h1>FIELD EXTENSION<br>FOR OPENMANET</h1>
+  <div style="font-size:13pt;color:#fff;margin-top:6pt">The Complete Guide</div>
+  <div class="ver">Release v1.0<br>Node package 1.0.9 · ATAK plugin ManetNode FE 1.4 · ManetNode app 8.3<br>OpenMANET 1.8 · Raspberry Pi 4 · HaLow · LoRa (Meshtastic)</div>
+</section>
+
+<!-- ============================================================ CONTENTS -->
+<section class="chapter">
+<h2>Contents</h2>
+<div class="toc">
+<div><span>1</span>What it is and how it fits together</div>
+<div><span>2</span>Parts and assembly</div>
+<div><span>3</span>Setting up nodes</div>
+<div><span>4</span>The status light</div>
+<div><span>5</span>Power and battery</div>
+<div><span>6</span>The node web page</div>
+<div><span>7</span>The ATAK plugin (ManetNode FE)</div>
+<div><span>8</span>The ManetNode app</div>
+<div><span>9</span>Map tools: points, geofences, breadcrumbs</div>
+<div><span>10</span>Capabilities Test (range walk)</div>
+<div><span>11</span>LoRa fallback</div>
+<div><span>12</span>The mesh: HaLow and 2.4 GHz</div>
+<div><span>13</span>Maintenance, updates and backups</div>
+<div><span>14</span>Troubleshooting</div>
+<div><span>15</span>Reference: ports, files, API</div>
+<div><span>16</span>Building from source</div>
+</div>
+<div class="box tip" style="margin-top:18pt"><b class="t">How to read this guide</b>
+Chapters 1–4 are what every team member should know. Chapters 5–13 explain each part in depth. Chapters 14–16 are for whoever looks after the nodes. Words in <span class="kbd">boxes</span> are buttons or tabs you press.</div>
+<div class="box"><b class="t" style="color:#fff">Downloads</b>
+Every file is attached to the <b>v1.0 release</b> on the GitHub page (Releases, right-hand side):
+<table>
+<tr><td class="k">…SD-image-rpi4.img.gz</td><td>Ready-to-flash SD card for a new node (OpenMANET 1.8 + Field Extension)</td></tr>
+<tr><td class="k">field-extensions_1.0.9_all.ipk</td><td>Node package, to install on an existing OpenMANET 1.8 node</td></tr>
+<tr><td class="k">…ATAK-plugin-ATAK-5.7.0.apk / 5.8.0.apk</td><td>ATAK plugin, signed by TAK.gov, for regular ATAK CIV 5.7 / 5.8</td></tr>
+<tr><td class="k">…ManetNode-Android.apk</td><td>ManetNode phone app (Android)</td></tr>
+<tr><td class="k">…ManetNode-Mac.zip</td><td>Mac launcher that lists the nodes</td></tr>
+<tr><td class="k">…field-card.pdf</td><td>One-page card to keep with each node</td></tr>
+<tr><td class="k">SHA256SUMS.txt</td><td>Checksums to confirm every download is intact</td></tr>
+</table></div>
+</section>
+
+<!-- ============================================================ 1 OVERVIEW -->
+<section class="chapter">
+<h2>1 · What it is and how it fits together</h2>
+<p><b>OpenMANET</b> turns a Raspberry Pi 4 with a Wi-Fi HaLow radio into a mesh node: nodes find each other and form one network over long range, and phones join a node's Wi-Fi to get on it. The <b>Field Extension</b> adds what a team needs in the field:</p>
+<ul>
+<li><b>A status light</b> on each node that tells you at a glance whether it has mesh, internet, LoRa, GPS, how charged it is, and when it is being worked on.</li>
+<li><b>Battery and power</b> control for the PiSugar battery: percent and time left, auto power-on, safe low-battery shutdown, clean shutdown on a long press.</li>
+<li><b>LoRa fallback</b>: when the mesh is out of reach, ATAK positions, chat and map markers go over a Meshtastic LoRa radio instead.</li>
+<li><b>Self-repair</b>: watchdogs restart a stuck HaLow radio, demote a bad 2.4 GHz link, recover after crashes.</li>
+<li><b>A node web page</b> (port 8787), the <b>ATAK plugin</b> and the <b>ManetNode app</b> to see and change all of it.</li>
+</ul>
+<figure>
+<svg viewBox="0 0 720 360" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="12">
+  <rect x="0" y="0" width="720" height="360" rx="10" fill="#0a1216" stroke="#12434a"/>
+  <!-- internet -->
+  <rect x="300" y="18" width="120" height="36" rx="18" fill="none" stroke="#8fa7b2" stroke-dasharray="4 3"/>
+  <text x="360" y="41" fill="#8fa7b2" text-anchor="middle">Internet (optional)</text>
+  <line x1="200" y1="96" x2="320" y2="54" stroke="#8fa7b2" stroke-width="2"/>
+  <text x="232" y="66" fill="#8fa7b2" font-size="10">Ethernet / LAN port</text>
+  <!-- nodes -->
+  <g>
+    <rect x="110" y="96" width="170" height="78" rx="10" fill="#05080a" stroke="#00e5ff" stroke-width="2"/>
+    <circle cx="134" cy="120" r="9" fill="#b56cff"/>
+    <text x="152" y="124" fill="#fff" font-weight="bold">Node A</text>
+    <text x="126" y="146" fill="#8fa7b2" font-size="10.5">Pi 4 · HaLow · 2.4 GHz stick</text>
+    <text x="126" y="162" fill="#8fa7b2" font-size="10.5">LoRa radio · PiSugar · light</text>
+  </g>
+  <g>
+    <rect x="440" y="96" width="170" height="78" rx="10" fill="#05080a" stroke="#00e5ff" stroke-width="2"/>
+    <circle cx="464" cy="120" r="9" fill="#00e676"/>
+    <text x="482" y="124" fill="#fff" font-weight="bold">Node B</text>
+    <text x="456" y="146" fill="#8fa7b2" font-size="10.5">Pi 4 · HaLow · 2.4 GHz stick</text>
+    <text x="456" y="162" fill="#8fa7b2" font-size="10.5">LoRa radio · PiSugar · light</text>
+  </g>
+  <!-- links -->
+  <line x1="280" y1="118" x2="440" y2="118" stroke="#00e5ff" stroke-width="4"/>
+  <text x="360" y="110" fill="#00e5ff" text-anchor="middle" font-size="11">HaLow mesh · long range (~1 km+)</text>
+  <line x1="280" y1="136" x2="440" y2="136" stroke="#4dd0e1" stroke-width="3" stroke-dasharray="10 6"/>
+  <text x="360" y="150" fill="#4dd0e1" text-anchor="middle" font-size="11">2.4 GHz mesh · fast, short range</text>
+  <line x1="280" y1="164" x2="440" y2="164" stroke="#4d8bff" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round"/>
+  <text x="360" y="178" fill="#4d8bff" text-anchor="middle" font-size="11">LoRa · slow, longest range, backup</text>
+  <!-- phones A -->
+  <g fill="none" stroke="#d9e6ed" stroke-width="1.5">
+    <rect x="62" y="232" width="34" height="58" rx="6"/><rect x="128" y="232" width="34" height="58" rx="6"/>
+  </g>
+  <text x="112" y="308" fill="#d9e6ed" text-anchor="middle" font-size="10.5">ATAK + plugin / ManetNode</text>
+  <line x1="112" y1="228" x2="170" y2="176" stroke="#d9e6ed" stroke-dasharray="3 3"/>
+  <text x="176" y="214" fill="#8fa7b2" font-size="10">node's Wi-Fi</text>
+  <!-- phones B -->
+  <g fill="none" stroke="#d9e6ed" stroke-width="1.5"><rect x="520" y="232" width="34" height="58" rx="6"/></g>
+  <line x1="537" y1="228" x2="520" y2="176" stroke="#d9e6ed" stroke-dasharray="3 3"/>
+  <text x="537" y="308" fill="#d9e6ed" text-anchor="middle" font-size="10.5">phone on Node B</text>
+  <!-- lora only teammate -->
+  <g fill="none" stroke="#4d8bff" stroke-width="1.5"><rect x="636" y="232" width="34" height="58" rx="6"/><rect x="676" y="252" width="16" height="30" rx="3"/></g>
+  <line x1="684" y1="250" x2="684" y2="236" stroke="#4d8bff" stroke-width="1.5"/>
+  <path d="M612 172 Q650 200 660 228" stroke="#4d8bff" stroke-width="2.5" fill="none" stroke-dasharray="2 6" stroke-linecap="round"/>
+  <text x="664" y="308" fill="#4d8bff" text-anchor="middle" font-size="10.5">LoRa-only teammate</text>
+  <text x="664" y="322" fill="#8fa7b2" text-anchor="middle" font-size="9.5">ATAK + Meshtastic radio</text>
+  <text x="24" y="344" fill="#8fa7b2" font-size="10">Everyone sees everyone: positions, chat and map markers flow over the mesh, and over LoRa when the mesh can't reach.</text>
+</svg>
+<figcaption>Figure 1. Two nodes, phones on each node's Wi-Fi, and a teammate who only has a LoRa radio.</figcaption>
+</figure>
+<h3>The three ways to control it</h3>
+<table>
+<tr><th>Tool</th><th>Where</th><th>Best for</th></tr>
+<tr><td class="k">ATAK plugin “ManetNode FE”</td><td>Inside ATAK (Tools menu)</td><td>Day-to-day: light, battery, LoRa, push-to-talk, without leaving ATAK</td></tr>
+<tr><td class="k">ManetNode app</td><td>Android app</td><td>Team map with points, geofences and breadcrumbs, chat, PTT, every node setting, adding nodes, the Capabilities Test</td></tr>
+<tr><td class="k">Node web page</td><td>Browser: <code>http://&lt;node&gt;:8787</code></td><td>Everything in depth, from any phone or laptop, no install</td></tr>
+</table>
+<p class="small">OpenMANET's own page stays at port 8080 (mesh, Wi-Fi and system settings). The Field Extension never changes OpenMANET itself.</p>
+</section>
+
+<!-- ============================================================ 2 HARDWARE -->
+<section class="chapter">
+<h2>2 · Parts and assembly</h2>
+<table>
+<tr><th>Part</th><th>Needed?</th><th>Notes</th></tr>
+<tr><td class="k">Raspberry Pi 4 (4 or 8 GB)</td><td>Yes</td><td>The node computer.</td></tr>
+<tr><td class="k">MM6108 HaLow HAT (SPI) + antenna</td><td>Yes</td><td>The long-range mesh radio OpenMANET is built for.</td></tr>
+<tr><td class="k">microSD card, 16 GB or more</td><td>Yes</td><td>Holds OpenMANET + Field Extension.</td></tr>
+<tr><td class="k">PiSugar 3 / 3 Plus battery</td><td>Recommended</td><td>Battery %, time left, auto power-on, clean shutdown.</td></tr>
+<tr><td class="k">RGB LED (common cathode) + three 330 Ω resistors</td><td>Recommended</td><td>The status light. Wiring in Figure 3.</td></tr>
+<tr><td class="k">USB Meshtastic radio (e.g. Heltec V4)</td><td>Recommended</td><td>LoRa fallback. Any Meshtastic radio on USB works.</td></tr>
+<tr><td class="k">USB 2.4 GHz Wi-Fi stick (RT5370)</td><td>Optional</td><td>A second, faster mesh link between nearby nodes.</td></tr>
+<tr><td class="k">USB GPS</td><td>Optional</td><td>Places the node on maps. Without it, a phone can give the node its position.</td></tr>
+</table>
+<figure>
+<svg viewBox="0 0 720 300" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="12">
+  <rect width="720" height="300" rx="10" fill="#0a1216" stroke="#12434a"/>
+  <text x="24" y="30" fill="#00e5ff" font-weight="bold" letter-spacing="1">SIDE VIEW OF A NODE</text>
+  <!-- stack -->
+  <rect x="90" y="70" width="300" height="34" rx="4" fill="#132a1f" stroke="#00e676"/>
+  <text x="240" y="92" fill="#00e676" text-anchor="middle">HaLow HAT (on the 40-pin header)</text>
+  <line x1="372" y1="70" x2="372" y2="44" stroke="#00e676" stroke-width="3"/><text x="380" y="50" fill="#8fa7b2" font-size="10.5">HaLow antenna</text>
+  <rect x="90" y="118" width="300" height="34" rx="4" fill="#1b2430" stroke="#4d8bff"/>
+  <text x="240" y="140" fill="#9fc0ff" text-anchor="middle">Raspberry Pi 4</text>
+  <rect x="90" y="166" width="300" height="34" rx="4" fill="#2a1a33" stroke="#b56cff"/>
+  <text x="240" y="188" fill="#d5b3ff" text-anchor="middle">PiSugar 3 Plus (pogo pins under the Pi)</text>
+  <circle cx="110" cy="214" r="7" fill="none" stroke="#b56cff" stroke-width="2"/><text x="124" y="218" fill="#8fa7b2" font-size="10.5">PiSugar button: tap = on · hold = off</text>
+  <rect x="300" y="208" width="44" height="16" rx="3" fill="none" stroke="#ffb300"/><text x="352" y="221" fill="#ffb300" font-size="10.5">USB-C charge port</text>
+  <!-- usb -->
+  <line x1="390" y1="135" x2="470" y2="135" stroke="#d9e6ed" stroke-width="2"/>
+  <rect x="470" y="74" width="200" height="30" rx="5" fill="none" stroke="#4dd0e1"/><text x="570" y="94" fill="#4dd0e1" text-anchor="middle">RT5370 2.4 GHz stick (USB)</text>
+  <rect x="470" y="120" width="200" height="30" rx="5" fill="none" stroke="#4d8bff"/><text x="570" y="140" fill="#9fc0ff" text-anchor="middle">Heltec V4 LoRa radio (USB)</text>
+  <rect x="470" y="166" width="200" height="30" rx="5" fill="none" stroke="#8fa7b2" stroke-dasharray="4 3"/><text x="570" y="186" fill="#8fa7b2" text-anchor="middle">GPS (USB, optional)</text>
+  <line x1="470" y1="89" x2="440" y2="135" stroke="#d9e6ed"/><line x1="470" y1="181" x2="440" y2="135" stroke="#d9e6ed"/>
+  <!-- led -->
+  <circle cx="60" cy="96" r="13" fill="#b56cff" stroke="#fff"/><text x="60" y="124" fill="#d9e6ed" text-anchor="middle" font-size="10.5">status</text><text x="60" y="137" fill="#d9e6ed" text-anchor="middle" font-size="10.5">light</text>
+  <line x1="73" y1="96" x2="90" y2="96" stroke="#d9e6ed"/>
+  <text x="24" y="262" fill="#8fa7b2" font-size="10.5">USB order does not matter: the node finds the 2.4 GHz stick, LoRa radio and GPS by themselves.</text>
+  <text x="24" y="280" fill="#8fa7b2" font-size="10.5">The light is wired to the GPIO pins the HaLow HAT passes through (see Figure 3).</text>
+</svg>
+<figcaption>Figure 2. What goes where.</figcaption>
+</figure>
+</section>
+
+<section>
+<h3><span class="n">2.1</span>Wiring the status light</h3>
+<p>Use a <b>common-cathode</b> RGB LED: one long leg goes to ground, the other three legs are red, green and blue. Put a <b>330 Ω resistor</b> in each colour leg. The three colour pins are fixed in the software: <b>red = GPIO 27, green = GPIO 22, blue = GPIO 26</b>.</p>
+<figure>
+<svg viewBox="0 0 720 330" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="12">
+  <rect width="720" height="330" rx="10" fill="#0a1216" stroke="#12434a"/>
+  <text x="24" y="30" fill="#00e5ff" font-weight="bold" letter-spacing="1">40-PIN HEADER (board turned so the USB ports face down: header on the right edge, pin 1 at the top)</text>
+  <!-- header: 20 rows x 2 -->
+  <g>
+    <rect x="60" y="48" width="70" height="262" rx="6" fill="#111" stroke="#555"/>
+    <!-- pins: odd left column x=80, even right x=110; row i y=58+i*12.6 -->
+    <g fill="#333" stroke="#777">
+      <circle cx="80" cy="58" r="4"/><circle cx="110" cy="58" r="4"/>
+    </g>
+  </g>
+  <g id="pins"></g>
+  <!-- explicit pins we care about -->
+  <g font-size="10.5">
+    <!-- generic dots -->
+    <g fill="#333" stroke="#666">
+      <circle cx="80" cy="70.6" r="4"/><circle cx="110" cy="70.6" r="4"/><circle cx="80" cy="83.2" r="4"/><circle cx="110" cy="83.2" r="4"/>
+      <circle cx="80" cy="95.8" r="4"/><circle cx="110" cy="95.8" r="4"/><circle cx="80" cy="108.4" r="4"/><circle cx="110" cy="108.4" r="4"/>
+      <circle cx="80" cy="121" r="4"/><circle cx="110" cy="121" r="4"/><circle cx="110" cy="133.6" r="4"/>
+      <circle cx="110" cy="146.2" r="4"/><circle cx="80" cy="158.8" r="4"/><circle cx="110" cy="158.8" r="4"/>
+      <circle cx="80" cy="171.4" r="4"/><circle cx="110" cy="171.4" r="4"/><circle cx="80" cy="184" r="4"/><circle cx="110" cy="184" r="4"/>
+      <circle cx="80" cy="196.6" r="4"/><circle cx="110" cy="196.6" r="4"/><circle cx="80" cy="209.2" r="4"/><circle cx="110" cy="209.2" r="4"/>
+      <circle cx="80" cy="221.8" r="4"/><circle cx="110" cy="221.8" r="4"/><circle cx="80" cy="234.4" r="4"/><circle cx="110" cy="234.4" r="4"/>
+      <circle cx="80" cy="247" r="4"/><circle cx="110" cy="247" r="4"/><circle cx="80" cy="259.6" r="4"/><circle cx="110" cy="259.6" r="4"/>
+      <circle cx="80" cy="272.2" r="4"/><circle cx="110" cy="272.2" r="4"/><circle cx="110" cy="284.8" r="4"/><circle cx="110" cy="297.4" r="4"/>
+    </g>
+    <!-- pin 1 marker -->
+    <rect x="74" y="52" width="12" height="12" fill="none" stroke="#ffb300"/><text x="40" y="62" fill="#ffb300">pin 1</text>
+    <!-- pin 13 GPIO27 (row 7 left) -->
+    <circle cx="80" cy="133.6" r="5" fill="#ff3b4d"/>
+    <!-- pin 15 GPIO22 (row 8 left) -->
+    <circle cx="80" cy="146.2" r="5" fill="#00e676"/>
+    <!-- pin 37 GPIO26 (row 19 left) -->
+    <circle cx="80" cy="284.8" r="5" fill="#4d8bff"/>
+    <!-- pin 39 GND (row 20 left) -->
+    <circle cx="80" cy="297.4" r="5" fill="#d9e6ed"/>
+  </g>
+  <!-- wires -->
+  <g stroke-width="2.5" fill="none">
+    <path d="M85 133.6 H 360 V 145 H 400" stroke="#ff3b4d"/>
+    <path d="M85 146.2 H 340 V 175 H 400" stroke="#00e676"/>
+    <path d="M85 284.8 H 320 V 205 H 400" stroke="#4d8bff"/>
+    <path d="M85 297.4 H 690 V 173 H 640" stroke="#d9e6ed"/>
+    <path d="M456 145 H 562" stroke="#ff3b4d"/><path d="M456 175 H 560" stroke="#00e676"/><path d="M456 205 H 566" stroke="#4d8bff"/>
+  </g>
+  <g font-size="10.5">
+    <text x="140" y="127" fill="#ff8a96">pin 13 · GPIO 27 · red</text>
+    <text x="140" y="161" fill="#7cf5b0">pin 15 · GPIO 22 · green</text>
+    <text x="140" y="279" fill="#9fc0ff">pin 37 · GPIO 26 · blue</text>
+    <text x="140" y="315" fill="#d9e6ed">pin 39 · ground</text>
+  </g>
+  <g fill="#0a1216" stroke-width="2">
+    <rect x="400" y="136.5" width="56" height="17" rx="3" stroke="#ff3b4d"/><rect x="400" y="166.5" width="56" height="17" rx="3" stroke="#00e676"/><rect x="400" y="196.5" width="56" height="17" rx="3" stroke="#4d8bff"/>
+  </g>
+  <g font-size="10" fill="#d9e6ed" text-anchor="middle"><text x="428" y="149">330 Ω</text><text x="428" y="179">330 Ω</text><text x="428" y="209">330 Ω</text></g>
+  <circle cx="600" cy="173" r="40" fill="#2a1a33" stroke="#fff" stroke-width="2"/>
+  <text x="600" y="170" fill="#fff" text-anchor="middle" font-size="11.5" font-weight="bold">RGB LED</text>
+  <text x="600" y="185" fill="#8fa7b2" text-anchor="middle" font-size="8.5">common cathode</text>
+  <text x="684" y="240" fill="#d9e6ed" font-size="10" text-anchor="end">long leg (cathode)</text>
+  <text x="684" y="254" fill="#d9e6ed" font-size="10" text-anchor="end">to ground</text>
+  <text x="430" y="62" fill="#8fa7b2" font-size="10.5">Don't use GPIO 12, 17 or 25:</text>
+  <text x="430" y="78" fill="#8fa7b2" font-size="10.5">they are kept free for other HATs.</text>
+</svg>
+<figcaption>Figure 3. Status light wiring. The node checks the pins at start-up and refuses a pin that clashes with something else.</figcaption>
+</figure>
+<div class="box tip"><b class="t">Check it</b>After the first boot the light should go <b>red</b> (starting), then turn the colour of the node's state. The self-test (chapter 13) should say “PASS Status light driver is running”.</div>
+
+<h3><span class="n">2.2</span>Charging through a case USB-C port</h3>
+<p>Many cases bring the PiSugar's charge input out to a USB-C socket on the case. A plain USB-C socket gives <b>0 V</b> on a USB-C-to-C charger unless its two <b>CC</b> pins each have a <b>5.1 kΩ</b> resistor to ground; that is how the charger knows a device is plugged in. A USB-A-to-C cable always works, because it does not need the CC pins.</p>
+<figure>
+<svg viewBox="0 0 720 210" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="12">
+  <rect width="720" height="210" rx="10" fill="#0a1216" stroke="#12434a"/>
+  <rect x="60" y="60" width="150" height="70" rx="30" fill="none" stroke="#d9e6ed" stroke-width="2"/>
+  <text x="135" y="100" fill="#fff" text-anchor="middle">USB-C socket</text><text x="70" y="150" fill="#8fa7b2" font-size="10.5">on the case</text>
+  <g stroke-width="2.5" fill="none">
+    <path d="M210 75 H 330" stroke="#ffb300"/><path d="M210 95 H 330" stroke="#ffb300"/>
+    <path d="M210 115 H 560" stroke="#ff3b4d"/><path d="M135 130 V 180 H 640" stroke="#d9e6ed"/>
+  </g>
+  <text x="222" y="70" fill="#ffb300" font-size="10.5">CC1</text><text x="222" y="90" fill="#ffb300" font-size="10.5">CC2</text>
+  <text x="222" y="130" fill="#ff8a96" font-size="10.5">VBUS (5 V)</text><text x="150" y="176" fill="#d9e6ed" font-size="10.5">GND</text>
+  <rect x="330" y="66" width="60" height="18" rx="3" fill="#0a1216" stroke="#ffb300" stroke-width="2"/><rect x="330" y="86" width="60" height="18" rx="3" fill="#0a1216" stroke="#ffb300" stroke-width="2"/>
+  <text x="360" y="79" fill="#fff" text-anchor="middle" font-size="10">5.1 kΩ</text><text x="360" y="99" fill="#fff" text-anchor="middle" font-size="10">5.1 kΩ</text>
+  <path d="M390 75 H 420 V 180 M390 95 H 420" stroke="#d9e6ed" stroke-width="2" fill="none"/>
+  <rect x="560" y="100" width="120" height="30" rx="5" fill="none" stroke="#b56cff"/><text x="620" y="120" fill="#d5b3ff" text-anchor="middle">PiSugar 5 V in</text>
+  <path d="M640 180 V 130" stroke="#d9e6ed" stroke-width="2"/>
+  <text x="450" y="60" fill="#8fa7b2" font-size="10.5">One resistor from each CC pin to ground.</text>
+  <text x="450" y="76" fill="#8fa7b2" font-size="10.5">Some boards only bring out one CC wire:</text>
+  <text x="450" y="92" fill="#8fa7b2" font-size="10.5">then one resistor works with the plug one way up.</text>
+</svg>
+<figcaption>Figure 4. The two 5.1 kΩ “CC” resistors that make a USB-C charger switch on.</figcaption>
+</figure>
+<div class="box warn"><b class="t">Charger</b>Use a 5 V / 3 A supply and a short cable. A weak supply can't run the node and charge the battery at the same time, and the battery slowly drains even while plugged in.</div>
+</section>
+
+<!-- ============================================================ 3 SETUP -->
+<section class="chapter">
+<h2>3 · Setting up nodes</h2>
+<h3><span class="n">3.1</span>A brand-new node from the SD card image</h3>
+<ol>
+<li>Download <code>FieldExtension-OpenMANET-v1.0-SD-image-rpi4.img.gz</code> from the release.</li>
+<li>Flash it to a microSD card with <b>Raspberry Pi Imager</b> (<span class="kbd">Choose OS</span> → <span class="kbd">Use custom</span>) or <b>balenaEtcher</b>. Both accept the .gz file directly.</li>
+<li>Put the card in the Pi and power it on. The light goes red while it starts (about a minute).</li>
+<li>Join the new node's Wi-Fi and finish <b>OpenMANET's own first-boot setup</b> on its page (port 8080): root password and country/region.</li>
+<li>Add it to your team with a <b>setup code</b> (next section). That gives it the same mesh, the same LoRa team channel and its own callsign in one step.</li>
+</ol>
+<p class="small">The image is stock OpenMANET 1.8 (Pi 4, HaLow MM6108 SPI) with the Field Extension and its Python preinstalled. It holds no keys, passwords, callsigns or mesh settings. It also carries the optional PortableTAK loader, which does nothing unless a signed PortableTAK drive is plugged in.</p>
+
+<h3><span class="n">3.2</span>Adding a node to the team with a setup code</h3>
+<figure>
+<svg viewBox="0 0 720 230" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="11.5">
+  <rect width="720" height="230" rx="10" fill="#0a1216" stroke="#12434a"/>
+  <g>
+    <rect x="20" y="40" width="200" height="110" rx="10" fill="#05080a" stroke="#00e5ff" stroke-width="2"/>
+    <text x="120" y="62" fill="#00e5ff" text-anchor="middle" font-weight="bold">1 · On a team node</text>
+    <text x="34" y="86" fill="#d9e6ed">Phone on an existing node's Wi-Fi.</text>
+    <text x="34" y="104" fill="#d9e6ed">ManetNode → Node Settings →</text>
+    <text x="34" y="122" fill="#d9e6ed">Add a new node → Show code</text>
+    <rect x="160" y="128" width="16" height="16" fill="none" stroke="#fff"/><rect x="164" y="132" width="8" height="8" fill="#fff"/>
+  </g>
+  <path d="M220 95 H 260" stroke="#00e5ff" stroke-width="2.5" marker-end="url(#a)"/>
+  <g>
+    <rect x="262" y="40" width="200" height="110" rx="10" fill="#05080a" stroke="#00e5ff" stroke-width="2"/>
+    <text x="362" y="62" fill="#00e5ff" text-anchor="middle" font-weight="bold">2 · On the new node</text>
+    <text x="276" y="86" fill="#d9e6ed">Switch the phone to the new</text>
+    <text x="276" y="104" fill="#d9e6ed">node's Wi-Fi. Add a new node →</text>
+    <text x="276" y="122" fill="#d9e6ed">Set up → scan the code, callsign</text>
+  </g>
+  <path d="M462 95 H 502" stroke="#00e5ff" stroke-width="2.5" marker-end="url(#a)"/>
+  <g>
+    <rect x="504" y="40" width="196" height="110" rx="10" fill="#05080a" stroke="#00e676" stroke-width="2"/>
+    <text x="602" y="62" fill="#00e676" text-anchor="middle" font-weight="bold">3 · It joins</text>
+    <text x="518" y="86" fill="#d9e6ed">Same HaLow + 2.4 GHz mesh,</text>
+    <text x="518" y="104" fill="#d9e6ed">same LoRa team channel,</text>
+    <text x="518" y="122" fill="#d9e6ed">its callsign. Reboots once.</text>
+  </g>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#00e5ff"/></marker></defs>
+  <text x="20" y="182" fill="#8fa7b2">The code is also on the web page (Maintenance → Add a new node): Show setup code on one node, paste it into</text>
+  <text x="20" y="200" fill="#8fa7b2">“Paste a setup code” on the new one. It contains the mesh password and the team key: only show it to your team.</text>
+</svg>
+<figcaption>Figure 5. One QR code sets up a new node.</figcaption>
+</figure>
+<p>After the reboot (about 2 minutes) the new node's light turns <b>green</b> or <b>purple</b> as soon as it hears the others, and it appears in everyone's node list and map.</p>
+
+<h3><span class="n">3.3</span>Installing on an existing OpenMANET 1.8 node</h3>
+<ol>
+<li>Put <code>field-extensions_1.0.9_all.ipk</code> into the <code>node-installer/</code> folder (from the GitHub page).</li>
+<li>Join the node's Wi-Fi (or plug into its LAN port).</li>
+<li>Mac: double-click <code>Install Field Extension (Mac).command</code> (first time: right-click → Open). Windows: right-click the <code>.ps1</code> → Run with PowerShell.</li>
+<li>Press Return for 10.41.0.1 (or type the node's address) and type the node's root password when asked.</li>
+</ol>
+<p>It saves a backup of the node's settings next to the installer, installs the package, and runs the self-test. Stock OpenMANET has no Python, so the first install fetches it from the OpenWrt package feed: <b>the node needs internet</b> for that (plug its LAN port into a router).</p>
+
+<h3><span class="n">3.4</span>Phones</h3>
+<table>
+<tr><th>What</th><th>How</th></tr>
+<tr><td class="k">ATAK plugin</td><td>Install regular ATAK CIV 5.7 or 5.8. Copy the matching plugin APK to the phone and tap it. In ATAK, load <b>ManetNode FE</b> from the Plugins list. It finds the node by itself whenever the phone is on a node's Wi-Fi.</td></tr>
+<tr><td class="k">ManetNode app</td><td>Copy the Android APK to the phone and tap it (allow “Install unknown apps” for your file manager). Allow location and microphone when asked.</td></tr>
+<tr><td class="k">Any phone or laptop</td><td>Join a node's Wi-Fi and open <code>http://10.41.0.1:8787</code> (or the node's own address).</td></tr>
+</table>
+<div class="box tip"><b class="t">Node password</b>Anything that changes a node asks for the node's password once: it is the same root password as the OpenMANET page. The app and plugin keep it encrypted on the phone (Android Keystore), so you only type it once.</div>
+</section>
+
+<!-- ============================================================ 4 LIGHT -->
+<section class="chapter">
+<h2>4 · The status light</h2>
+<p>The light shows <b>one state at a time</b>, the most important one. Short flashes for GPS and charging ride on top of it. Every pattern repeats, so watch for about 10 seconds.</p>
+<figure>
+<svg viewBox="0 0 720 560" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="11.5" id="ledchart"></svg>
+<figcaption>Figure 6. Every light pattern over 10 seconds. Filled = lit.</figcaption>
+</figure>
+</section>
+<section>
+<h3><span class="n">4.1</span>Which state wins</h3>
+<p>When several things are true at once, the higher one in this list is shown:</p>
+<figure>
+<svg viewBox="0 0 720 150" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="11">
+  <rect width="720" height="150" rx="10" fill="#0a1216" stroke="#12434a"/>
+  <g id="ladder"></g>
+  <text x="20" y="136" fill="#8fa7b2">← most important · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · least important →</text>
+</svg>
+<figcaption>Figure 7. Priority: a fault beats everything; a low battery beats maintenance; maintenance beats the normal network colours.</figcaption>
+</figure>
+<h3><span class="n">4.2</span>What each light means and what to do</h3>
+<table>
+<tr><th>Light</th><th>Means</th><th>Do</th></tr>
+<tr><td class="k"><span class="dot" style="background:#b56cff"></span>Purple</td><td>Mesh + internet</td><td>All good.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#00e676"></span>Green</td><td>Mesh, no internet</td><td>Normal in the field.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#00e5ff"></span>Cyan</td><td>Internet but no other node heard, and no LoRa radio</td><td>Normal for a single node on a network cable.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#4d8bff"></span>Blue slow blink</td><td>LoRa only: no other node on the mesh; the LoRa radio carries positions and chat</td><td>Move closer to the team or raise the node to get the mesh back.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#ffb300"></span>Amber</td><td>Nothing: no mesh, no internet, no LoRa</td><td>Check the other nodes are on; reseat the LoRa radio.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#fff"></span>White</td><td>Maintenance: updating, applying settings, running diagnostics, or Maintenance mode switched on</td><td><b>Don't unplug.</b> It clears by itself; manual mode ends after 30 min.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#ff3b4d"></span>Red solid</td><td>Starting up (first minute), or a fault</td><td>If it stays red, open the web page: Node Health shows what failed.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#ff3b4d"></span>Red quick blink</td><td>Shutting down cleanly</td><td>Wait until it goes dark before unplugging.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#ff3b4d"></span>Red pulse</td><td>Battery under 20 % (on battery)</td><td>Charge soon.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#ff3b4d"></span>Red fast blink</td><td>Battery under 10 %</td><td>Charge now; the node shuts itself down safely at 5 %.</td></tr>
+<tr><td class="k"><span class="dot" style="background:#4d8bff"></span>Blue 2 s flash</td><td>GPS has a fix (every ~10 s)</td><td>—</td></tr>
+<tr><td class="k"><span class="dot" style="background:#00e676"></span>Green blinks</td><td>Charging: the colour stays steady and every 10 s it blinks green once per 20 % of charge</td><td>5 blinks = nearly full. The blinks stop when it's full.</td></tr>
+</table>
+<div class="box tip"><b class="t">Dim it or turn it off</b>Web page <span class="kbd">Status LED</span>, plugin <span class="kbd">SET</span> tab, or ManetNode Node Settings. Brightness 10–100 %. Off is useful at night; the node keeps working.</div>
+<figure><img src="img/web-led.png" style="width:82%"><figcaption>The light's state, colour and meaning are also shown live on the web page, the plugin and the app.</figcaption></figure>
+</section>
+
+<!-- ============================================================ 5 POWER -->
+<section class="chapter">
+<h2>5 · Power and battery</h2>
+<table>
+<tr><th>Feature</th><th>What it does</th></tr>
+<tr><td class="k">Battery %</td><td>From the PiSugar, smoothed over 5 minutes so it doesn't jump. After a calibration it uses the node's own measured curve. While charging the % rises slowly on purpose; the voltage is the honest number.</td></tr>
+<tr><td class="k">Time left</td><td>From the pack size you set (5,000 / 8,000 / 10,000 mAh or other) and, after about 10 minutes on battery, the node's real drain.</td></tr>
+<tr><td class="k">Auto power-on</td><td>ON: after the battery ran flat, the node starts by itself as soon as the charger is plugged in. Recommended ON for every node.</td></tr>
+<tr><td class="k">Safe shutdown</td><td>On battery, at 5 % (or 10 %) the node shuts down cleanly instead of losing power suddenly, which can damage the SD card.</td></tr>
+<tr><td class="k">Button long press</td><td><b>Clean shutdown</b> (recommended): hold the PiSugar button; the light blinks red and the node saves everything and powers off. <b>Cut power</b>: the PiSugar default, off at once.</td></tr>
+<tr><td class="k">Calibration</td><td>For a new or different battery: charge to full, press <span class="kbd">Calibrate</span>, unplug, and leave the node running until it switches itself off (about 12 h on 10,000 mAh). Plugging in cancels the run.</td></tr>
+</table>
+<div class="box"><b class="t" style="color:#fff">Turning a node on and off</b>
+<b>On:</b> short-press (tap) the PiSugar button. <b>Off:</b> hold the button until the light blinks red, or use <span class="kbd">Shutdown</span> in the plugin, app or web page. It stays off until the button is pressed again (or the charger is plugged in after a full drain, with auto power-on ON).</div>
+<figure><img src="img/web-maint1.png" style="width:100%"><figcaption>Web page → Maintenance: node name, adding a node, auto power-on, battery size, calibration and safe shutdown.</figcaption></figure>
+
+</section>
+
+<!-- ============================================================ 6 WEB -->
+<section class="chapter">
+<h2>6 · The node web page</h2>
+<p>Open <code>http://&lt;node address&gt;:8787</code> on any device on the node's Wi-Fi (the first node is usually <code>10.41.0.1</code>). The top of the page shows the node's name, uptime, the tiles, and buttons for the <span class="kbd">Nodes</span> list and the <span class="kbd">OpenMANET</span> page.</p>
+<figure><img src="img/web-top.png" style="width:100%"><figcaption>The status tiles: battery, GPS, mesh neighbours, internet, mesh IP, HaLow radio, the phone Wi-Fi and the backhaul.</figcaption></figure>
+<table>
+<tr><th>Tile</th><th>Shows</th></tr>
+<tr><td class="k">B · Battery</td><td>%, voltage, charging or on battery, time left, auto power-on, calibration.</td></tr>
+<tr><td class="k">G · GPS</td><td>Fix or no fix, and where the node's position comes from.</td></tr>
+<tr><td class="k">M · Mesh Neighbours</td><td>How many nodes it hears, and the speed of each link (HaLow and 2.4 GHz).</td></tr>
+<tr><td class="k">I · Internet</td><td>Online when a real check to the internet passes, not just when a route exists.</td></tr>
+<tr><td class="k">RF · HaLow Radio</td><td>Frequency and bandwidth.</td></tr>
+<tr><td class="k">AP · EUD Wi-Fi</td><td>The Wi-Fi name phones join.</td></tr>
+<tr><td class="k">BH · Backhaul</td><td>How the node reaches the internet (Ethernet, mesh gateway, none).</td></tr>
+</table>
+<figure><img src="img/web-services.png" style="width:100%"><figcaption>Services: every part of the Field Extension and OpenMANET, with what it does. All should say Running (traffic shaping is off unless limited).</figcaption></figure>
+</section>
+<section>
+<figure><img src="img/web-health.png" style="width:100%"><figcaption>Node Health: temperature, load, memory, HaLow, watchdogs, mesh links and how the last restart ended.</figcaption></figure>
+<p>Further down: <b>Backhaul</b>, <b>Phone Internet</b> (chapter 12), <b>LoRa</b> (chapter 11), <b>Maintenance</b> (chapters 5 and 13) and <b>OpenMANET Updates</b>.</p>
+<figure><img src="img/web-maint2.png" style="width:100%"><figcaption>Maintenance, continued: long press, updates from the mesh, diagnostics, sign-in and reboot.</figcaption></figure>
+</section>
+
+<!-- ============================================================ 7 PLUGIN -->
+<section class="chapter">
+<h2>7 · The ATAK plugin (ManetNode FE)</h2>
+<p>Open ATAK, tap the Tools menu, then <b>ManetNode FE</b>. The plugin finds the node your phone's Wi-Fi is on. To point it at another node, long-press the node name and type its address. The plugin's corner dot on the map is the node's light colour.</p>
+<div class="three shots plg"><figure><img src="img/plg-status.png"><figcaption>STATUS: the node, its light state and battery</figcaption></figure><figure><img src="img/plg-lora.png"><figcaption>LORA: radio check and fallback</figcaption></figure><figure><img src="img/plg-set.png"><figcaption>SET: web page buttons and the status light</figcaption></figure></div>
+<div class="three shots plg" style="margin-top:6pt"><figure><img src="img/plg-ptt.png"><figcaption>PTT: hold to talk</figcaption></figure><figure><img src="img/plg-lora2.png"><figcaption>LORA, further down: team channel and mode</figcaption></figure><figure><img src="img/plg-set2.png"><figcaption>SET, further down: phone internet and maintenance</figcaption></figure></div>
+<table>
+<tr><th>Tab</th><th>What's on it</th></tr>
+<tr><td class="k">PTT</td><td>Push-to-talk to the team over the mesh, with talk groups. Same voice channel as the ManetNode app.</td></tr>
+<tr><td class="k">STATUS</td><td>The light and its meaning, battery, mesh links, internet, LoRa, services and node health.</td></tr>
+<tr><td class="k">LORA</td><td>Fallback mode, LoRa mode (Open / Covert / Dark), team channel with QR code, radios heard, send a test message.</td></tr>
+<tr><td class="k">SET</td><td>Callsign, team and role; light on/off and brightness; auto power-on and long press; position source; node markers and mesh lines on the ATAK map; clear fleet chat; new-node setup code; Maintenance mode; reboot and shutdown. A button opens the node's full web page.</td></tr>
+</table>
+<div class="box tip"><b class="t">Nodes on the ATAK map</b>With <span class="kbd">SET</span> → Nodes on map ON, every node shows as a marker in its light colour, with lines between nodes: solid = HaLow, dashed = 2.4 GHz, dotted = LoRa only.</div>
+</section>
+
+<!-- ============================================================ 8 APP -->
+<section class="chapter">
+<h2>8 · The ManetNode app</h2>
+<p>ManetNode is a field app for Android: a status bar on top, the team map, and five tabs at the bottom.</p>
+<div class="four shots"><figure><img src="img/app-map-wide.png"><figcaption>MAP</figcaption></figure><figure><img src="img/app-chat.png"><figcaption>CHAT</figcaption></figure><figure><img src="img/app-ptt.png"><figcaption>PTT</figcaption></figure><figure><img src="img/app-nodes.png"><figcaption>NODES (mesh topology)</figcaption></figure></div>
+<p class="small">Location details are blacked out in these pictures.</p>
+<table>
+<tr><th>Tab</th><th>What it does</th></tr>
+<tr><td class="k">MAP</td><td>Nodes (coloured like their light), team members, mesh links, your position, compass tape, crosshair with coordinates, MGRS and the street address. Points, geofences and breadcrumbs (chapter 9).</td></tr>
+<tr><td class="k">CHAT</td><td>ATAK's All Chat Rooms: ATAK users and app users talk together; over LoRa when the mesh is down.</td></tr>
+<tr><td class="k">PTT</td><td>Push-to-talk with talk groups 1–5, same channel as the plugin.</td></tr>
+<tr><td class="k">NODES</td><td>Mesh topology: every node and how they connect.</td></tr>
+<tr><td class="k">SETTINGS</td><td>Node Status, Me (callsign, position sharing, ATAK sharing), Comms, ATAK, Map, LoRa, Node Settings, Capabilities Test, About.</td></tr>
+</table>
+<p>The top bar shows how many nodes are on the mesh, the connection state (mesh, LoRa only, standalone) and the node your phone is on with its battery.</p>
+<div class="three shots"><figure><img src="img/app-settings.png"><figcaption>SETTINGS menu</figcaption></figure><figure><img src="img/app-nodestatus.png"><figcaption>Node Status</figcaption></figure><figure><img src="img/app-nodesettings.png"><figcaption>Node Settings, with Maintenance mode</figcaption></figure></div>
+<div class="box tip"><b class="t">Node Settings in the app</b>Everything from the web page's Maintenance section: light, power, battery, position source, joining another mesh, adding a new node, Maintenance mode, reboot and shutdown.</div>
+</section>
+
+<!-- ============================================================ 9 MAP TOOLS -->
+<section class="chapter">
+<h2>9 · Map tools: points, geofences, breadcrumbs</h2>
+<p>Tap the round <span class="kbd">+</span> button on the left of the map for the Map Tools menu, or long-press anywhere on the map to drop a point there.</p>
+<div class="two" style="grid-template-columns:1fr 1.6fr;align-items:center"><figure><img src="img/app-maptools.png"><figcaption>The Map Tools menu</figcaption></figure><div><p>Points and geofences are stored on the phone and shared over the mesh, so they survive an app restart and show up for teammates who join later (each phone re-sends its own items every 2 minutes).</p><p>Tap any point or fence for its details. Long-press the map for a quick point at that spot.</p></div></div>
+<table>
+<tr><th>Tool</th><th>How</th></tr>
+<tr><td class="k">Drop a point</td><td>Name it and pick a type: Waypoint, Rally point, Friendly, Hostile, Unknown, Neutral. Notes are optional. Tap a point later for who placed it, distance and bearing from you, coordinates and MGRS, and Edit / Delete.</td></tr>
+<tr><td class="k">Geofence circle</td><td>Centred on the crosshair; set the radius in metres.</td></tr>
+<tr><td class="k">Geofence area</td><td>Tap the map to place each corner; <span class="kbd">Undo</span>, <span class="kbd">Cancel</span>, <span class="kbd">Done</span>.</td></tr>
+<tr><td class="k">Alerts</td><td>Each fence can alert when someone enters, leaves, or both. When you or a team member crosses it, the phone buzzes, shows a notification, and the fence turns red for a minute.</td></tr>
+<tr><td class="k">Breadcrumbs</td><td>Dotted trails: blue for you, cyan for each team member. Settings → Map: on/off, length (15 min, 1 h, 4 h), Save my trail (.kml), Clear trails.</td></tr>
+</table>
+<h3><span class="n">9.1</span>Who sees your points and geofences</h3>
+<figure>
+<svg viewBox="0 0 720 220" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="11.5">
+  <rect width="720" height="220" rx="10" fill="#0a1216" stroke="#12434a"/>
+  <rect x="20" y="70" width="150" height="70" rx="10" fill="#05080a" stroke="#00e5ff" stroke-width="2"/>
+  <text x="95" y="100" fill="#fff" text-anchor="middle" font-weight="bold">Your ManetNode</text><text x="95" y="120" fill="#8fa7b2" text-anchor="middle" font-size="10.5">point / geofence</text>
+  <path d="M170 90 H 400" stroke="#00e5ff" stroke-width="3"/>
+  <text x="285" y="82" fill="#00e5ff" text-anchor="middle">always</text>
+  <rect x="400" y="62" width="300" height="44" rx="8" fill="none" stroke="#00e5ff"/>
+  <text x="550" y="89" fill="#d9e6ed" text-anchor="middle">Every ManetNode user on the mesh</text>
+  <path d="M170 120 H 260" stroke="#4d8bff" stroke-width="3"/>
+  <rect x="260" y="104" width="120" height="34" rx="17" fill="#05080a" stroke="#4d8bff"/>
+  <text x="320" y="125" fill="#9fc0ff" text-anchor="middle" font-size="10.5">Share to ATAK ON?</text>
+  <path d="M380 121 H 400" stroke="#4d8bff" stroke-width="3"/>
+  <rect x="400" y="116" width="300" height="44" rx="8" fill="none" stroke="#4d8bff"/>
+  <text x="550" y="143" fill="#d9e6ed" text-anchor="middle">ATAK users (and LoRa via the nodes)</text>
+  <text x="20" y="190" fill="#8fa7b2">Share to ATAK is under Settings → Me → ATAK sharing (off by default). Points and geofences placed in ATAK always show in the app.</text>
+  <text x="20" y="207" fill="#8fa7b2">Breadcrumb trails stay on each phone: they are drawn from the positions everyone already sends.</text>
+</svg>
+<figcaption>Figure 8. App users always share with each other; ATAK only when you switch it on.</figcaption>
+</figure>
+<div class="box warn"><b class="t">Deleting</b>Deleting a point or geofence removes it for everyone, including items other people placed. Settings → Map lists every item and has “Delete all my points &amp; geofences”.</div>
+</section>
+
+<!-- ============================================================ 10 CAP TEST -->
+<section class="chapter">
+<h2>10 · Capabilities Test (range walk)</h2>
+<p>Measures how far each link really reaches where you are: <b>2.4 GHz</b>, <b>HaLow</b> and <b>LoRa</b>. It records a point every 3 seconds with the best link at that spot, draws a coloured track on the map, and saves it.</p>
+<figure>
+<svg viewBox="0 0 720 260" width="720" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial" font-size="11.5">
+  <rect width="720" height="260" rx="10" fill="#0a1216" stroke="#12434a"/>
+  <circle cx="70" cy="150" r="16" fill="#05080a" stroke="#00e5ff" stroke-width="3"/><text x="70" y="186" fill="#00e5ff" text-anchor="middle">Base node</text><text x="70" y="201" fill="#8fa7b2" text-anchor="middle" font-size="10">start here</text>
+  <g stroke-width="7" stroke-linecap="round" fill="none">
+    <path d="M90 150 Q 160 120 230 140" stroke="#00e676"/>
+    <path d="M230 140 Q 300 160 360 130" stroke="#ffd600"/>
+    <path d="M360 130 Q 430 100 500 125" stroke="#ff3b4d"/>
+    <path d="M500 125 Q 570 150 640 135" stroke="#4d8bff"/>
+  </g>
+  <g fill="#fff"><circle cx="640" cy="135" r="6"/></g>
+  <text x="640" y="116" fill="#d9e6ed" text-anchor="middle" font-size="10.5">you, carrying</text><text x="640" y="102" fill="#d9e6ed" text-anchor="middle" font-size="10.5">the other node</text>
+  <g font-size="10.5">
+    <rect x="30" y="222" width="12" height="12" fill="#00e676"/><text x="48" y="232" fill="#d9e6ed">≥10 Mb/s</text>
+    <rect x="130" y="222" width="12" height="12" fill="#ffd600"/><text x="148" y="232" fill="#d9e6ed">2–10 Mb/s</text>
+    <rect x="236" y="222" width="12" height="12" fill="#ff3b4d"/><text x="254" y="232" fill="#d9e6ed">under 2 Mb/s</text>
+    <rect x="356" y="222" width="12" height="12" fill="#4d8bff"/><text x="374" y="232" fill="#d9e6ed">mesh lost, LoRa only</text>
+    <rect x="510" y="222" width="12" height="12" fill="#8fa7b2"/><text x="528" y="232" fill="#d9e6ed">no link</text>
+  </g>
+  <path d="M70 60 H 640" stroke="#8fa7b2" stroke-dasharray="4 4"/><text x="355" y="52" fill="#8fa7b2" text-anchor="middle">range = furthest distance from the start where that link still worked</text>
+</svg>
+<figcaption>Figure 9. Walk away from the base node; the track's colour is the link quality at each spot.</figcaption>
+</figure>
+<ol>
+<li>Leave one node (the base) where it will stand. Carry the other node, with your phone on <b>the carried node's Wi-Fi</b>, and the app open.</li>
+<li>Stand next to the base node. ManetNode → Settings → <span class="kbd">Capabilities Test</span> → <span class="kbd">Start test</span>. The screen stays on.</li>
+<li>Walk out until you lose everything, then come back if you like. The page shows the ranges reached so far.</li>
+<li><span class="kbd">Stop &amp; save</span>. The “Last test” card shows the furthest range for 2.4 GHz, HaLow and LoRa, and the Settings menu shows them too.</li>
+</ol>
+<p>The track is saved to <code>Download/ManetNode</code> as <b>.kml</b> (opens in Google Earth and ATAK) and <b>.csv</b> (spreadsheet: time, position, link, speed, signal). Points with a GPS accuracy worse than 50 m are skipped.</p>
+<div class="two" style="grid-template-columns:1fr 1.6fr;align-items:center"><figure><img src="img/app-captest.png" style="max-height:2.9in"><figcaption>Settings → Capabilities Test</figcaption></figure><div><p>After a test, the <b>Last test</b> card lists the furthest range for 2.4 GHz mesh, HaLow mesh and LoRa, the date, how far you walked, how long it took and how many points were recorded. A link that never showed up says “not seen”.</p><p><span class="kbd">Clear track</span> removes the coloured track from the map; the saved files stay.</p></div></div>
+</section>
+
+<!-- ============================================================ 11 LORA -->
+<section class="chapter">
+<h2>11 · LoRa fallback</h2>
+<p>Each node can have a Meshtastic LoRa radio on USB. LoRa is slow (about 1 kbit/s) but reaches much further than Wi-Fi, so the nodes use it as a backup: <b>positions, chat and map markers</b> go over LoRa to nodes and LoRa-only teammates the mesh can't reach. Photos, video, files and voice don't.</p>
+<table>
+<tr><th>Fallback</th><th>Behaviour</th></tr>
+<tr><td class="k">AUTO</td><td>Use LoRa when the mesh is down, or while a LoRa-only teammate is heard. Recommended.</td></tr>
+<tr><td class="k">ALWAYS</td><td>Also while the mesh is up.</td></tr>
+<tr><td class="k">OFF</td><td>Leave the radio alone.</td></tr>
+</table>
+<table>
+<tr><th>LoRa mode</th><th>Behaviour</th></tr>
+<tr><td class="k">DARK</td><td>Team channel only, on a private frequency worked out from the team name. Keeps LoRa off the public channel and away from strangers. Use this in a mixed team.</td></tr>
+<tr><td class="k">COVERT</td><td>Team channel + the public channel; your position never goes on the public channel. Public frequency.</td></tr>
+<tr><td class="k">OPEN</td><td>Team + public channel; public Meshtastic radios see you. Public frequency.</td></tr>
+</table>
+<div class="box warn"><b class="t">Mixed teams</b>OPEN and COVERT move the radio to the public LongFast frequency. Radios on a custom layout stop hearing it. Every radio in the team must use the same region, speed and team channel.</div>
+<figure><img src="img/web-lora.png" style="width:100%"><figcaption>Web page → LoRa: radio status, fallback, mode, region and speed, team channel with Share code, a test message, traffic, and each radio heard with its signal.</figcaption></figure>
+</section>
+<section>
+<h3><span class="n">11.1</span>Team channel</h3>
+<p>Only radios with the same team name and passphrase can read team traffic. With <b>Change every node</b> ON, a new name or passphrase is sent over LoRa to every node so they all switch together. If a node is lost, turn Change every node OFF and set a new passphrase on each remaining node by hand, so the lost node can't follow.</p>
+<h3><span class="n">11.2</span>Adding a LoRa-only teammate</h3>
+<ol>
+<li>They need a Meshtastic radio paired to their phone, ATAK, and the Meshtastic ATAK plugin.</li>
+<li>Plugin <span class="kbd">LORA</span> → Team channel → <span class="kbd">QR</span>, or web page → <span class="kbd">Share code</span>. It holds the team key: only show it to your team.</li>
+<li>They scan it in the Meshtastic app (Channels → QR), on the same region and speed.</li>
+<li>Their position and chat appear for everyone on the mesh; yours reach them over LoRa.</li>
+</ol>
+<h3><span class="n">11.3</span>Node radios on the ATAK map</h3>
+<p>The nodes' own LoRa radios are kept off ATAK maps by default, because the node already shows itself. Guests' Meshtastic radios always show. Switch with “Node radios in ATAK”.</p>
+<h3><span class="n">11.4</span>Chat alerts</h3>
+<p>Nodes can post battery, mesh and temperature warnings in ATAK's All Chat Rooms. This is OFF by default so the team chat stays clean; the warnings still show on the node's page and in the plugin.</p>
+</section>
+
+<!-- ============================================================ 12 MESH -->
+<section class="chapter">
+<h2>12 · The mesh: HaLow and 2.4 GHz</h2>
+<p>Nodes link over <b>HaLow</b> (sub-GHz, long range, about 15 Mb/s) and, with the USB stick, over <b>2.4 GHz</b> (short range, about 30 Mb/s or more). The mesh (batman-adv) picks the best path by itself and switches when a link fades. Phones join the node's own Wi-Fi.</p>
+<table>
+<tr><th>Feature</th><th>What it does</th></tr>
+<tr><td class="k">Link watchdogs</td><td>Reboot the node if the HaLow radio stops, or if all HaLow peers vanish for 20 minutes (each at most twice in 6 h); unstick a stuck HaLow rate; move traffic off a weak 2.4 GHz link; check each mesh link.</td></tr>
+<tr><td class="k">Phone Internet</td><td><b>AUTO</b>: phones use the node's internet when it has one, otherwise their own cellular data. <b>CELL</b>: phones always use cellular; the node carries mesh traffic only. Phones switch at their next Wi-Fi reconnect.</td></tr>
+<tr><td class="k">Join another mesh</td><td>Scan another team's mesh QR to join it, for good or temporarily: a temporary join switches back after the hours you choose. <span class="kbd">Keep</span> cancels the switch-back.</td></tr>
+<tr><td class="k">Share this mesh</td><td>Shows the mesh settings as a QR code (includes the mesh password).</td></tr>
+<tr><td class="k">Position source</td><td>Auto, the node's GPS, or the connected phone: a node with no GPS can take its position from the phone on its Wi-Fi.</td></tr>
+</table>
+<div class="box warn"><b class="t">Rules that keep nodes talking</b>
+<ul style="margin:0">
+<li>All nodes: same mesh ID, channel, width, key and the 1 MHz primary channel index 1 (the OpenMANET 1.8 default), with HaLow on network <code>batmesh0</code>. The self-test checks these.</li>
+<li>RT5370 sticks: use HT20. If a link peers but carries no data, set <code>rt2800usb nohwcrypt=1</code> in <code>/etc/modules.d/rt2800-usb</code> and reboot.</li>
+<li>Never restart Wi-Fi remotely (<code>wifi down/up</code>): it can hang the radios. Reboot instead.</li>
+</ul></div>
+</section>
+
+<!-- ============================================================ 13 MAINT -->
+<section class="chapter">
+<h2>13 · Maintenance, updates and backups</h2>
+<h3><span class="n">13.1</span>Maintenance mode (white light)</h3>
+<p>Tells the team “this node is being worked on, don't unplug it or count on it right now”. The light turns <b>white</b> by itself while the node is updating, applying settings or running diagnostics. You can also switch it on by hand: ManetNode → Node Settings → <b>Maintenance mode</b> → <span class="kbd">On 30 min</span>, the plugin's <span class="kbd">SET</span> tab, or the web page's Maintenance section. It ends after 30 minutes or when you press <span class="kbd">Off</span>.</p>
+<h3><span class="n">13.2</span>Updating</h3>
+<ul>
+<li><b>From a computer:</b> the node installer (3.3) with the newer .ipk.</li>
+<li><b>Over the mesh:</b> update one node, and the others can take the same version from it (web page → Updates from the mesh). <b>Ask</b> waits for you to press Update; <b>Auto</b> installs by itself. The download must match its checksum.</li>
+<li><b>OpenMANET itself:</b> web page → OpenMANET Updates.</li>
+</ul>
+<h3><span class="n">13.3</span>Self-test and diagnostics</h3>
+<pre>ssh root@10.41.0.1 'sh /opt/field-extensions/selftest.sh'
+
+PASS  Python is installed.
+PASS  Battery-board connection (I2C bus 1) is on.
+PASS  Battery board (PiSugar) answers. Battery 61%.
+PASS  Web page and API is running.
+PASS  Status light driver is running.
+PASS  Phone internet helper is running.
+PASS  LoRa service is running.
+PASS  Self-recovery is running.
+PASS  Button long press: clean shutdown (PiSugar soft-shutdown mode on).
+PASS  Power-off step is on (the node turns fully off after a Field Extension shutdown).
+PASS  Field Extension page answers at http://10.41.0.1:8787/
+PASS  Status light reports maintenance (white light) state.
+PASS  HaLow mesh carries mesh traffic (network batmesh0).
+PASS  HaLow primary channel index is 1 (matches the other nodes).
+RESULT: all checks passed.</pre>
+<p>One line per check: PASS, FAIL (with what to fix) or SKIP (not used on this node). The installer runs it after every install. Web page → Maintenance → <b>Open diagnostics</b> collects versions, mesh, HaLow, LoRa, logs and restarts in one page to send to whoever is helping, with no passwords or keys.</p>
+<h3><span class="n">13.4</span>Backups</h3>
+<p>The installer saves a backup before every install. OpenMANET's own backup (System → Backup) includes the Field Extension's settings, because the package lists them in <code>/etc/sysupgrade.conf</code>. To move a node to a new SD card: back up, flash the new card, restore the backup on first boot.</p>
+<h3><span class="n">13.5</span>Clear fleet chat</h3>
+<p>Deletes the team chat stored on every node and every ManetNode phone, so the next operation starts clean. A node or phone that is off picks it up when it rejoins. ATAK keeps its own chat history.</p>
+</section>
+
+<!-- ============================================================ 14 TROUBLE -->
+<section class="chapter">
+<h2>14 · Troubleshooting</h2>
+<table>
+<tr><th>Problem</th><th>Try</th></tr>
+<tr><td class="k">Plugin or app says “not answering”</td><td>Check the phone is on a node's Wi-Fi (not cellular-only). In the plugin, long-press the node name and type its address.</td></tr>
+<tr><td class="k">Light amber</td><td>No other node heard and no LoRa. Check the other nodes are on and within range; reseat the LoRa radio's USB cable.</td></tr>
+<tr><td class="k">Light stays red</td><td>Open the web page → Node Health and Services to see what failed. A reboot clears most faults.</td></tr>
+<tr><td class="k">LoRa “not connected”</td><td>Reseat the radio's USB cable. The node retries and power-cycles the USB port by itself.</td></tr>
+<tr><td class="k">LoRa connected but nobody heard</td><td>All radios need the same region, speed and team channel. Use DARK in a mixed team.</td></tr>
+<tr><td class="k">A node hears the mesh but nothing reaches it</td><td>Reboot it (PiSugar off, then on). If it keeps happening on the 2.4 GHz link, set the RT5370 fix (chapter 12).</td></tr>
+<tr><td class="k">Node won't start after the battery ran flat</td><td>Plug in the charger and tap the PiSugar button. Turn auto power-on ON so it starts by itself next time.</td></tr>
+<tr><td class="k">Case USB-C charger does nothing</td><td>The case socket needs the 5.1 kΩ CC resistors (Figure 4). A USB-A-to-C cable always works.</td></tr>
+<tr><td class="k">Battery % jumps or stops near 92 %</td><td>Run a battery calibration (chapter 5).</td></tr>
+<tr><td class="k">Node changes ask for a password</td><td>It's the node's root password, the same as the OpenMANET page.</td></tr>
+<tr><td class="k">ATAK won't install the plugin</td><td>Use the signed APK that matches your ATAK version (5.7 or 5.8). A developer (debug) build of ATAK needs a debug plugin instead.</td></tr>
+</table>
+</section>
+
+<!-- ============================================================ 15 REFERENCE -->
+<section class="chapter">
+<h2>15 · Reference</h2>
+<h3>Addresses and ports</h3>
+<table>
+<tr><th>What</th><th>Where</th></tr>
+<tr><td class="k">First node</td><td><code>10.41.0.1</code> (others get their own 10.41.x.x address)</td></tr>
+<tr><td class="k">Field Extension page and API</td><td>TCP 8787 · API under <code>/api/field/</code></td></tr>
+<tr><td class="k">OpenMANET</td><td>TCP 8080, 8081, 8087 (left alone)</td></tr>
+<tr><td class="k">ATAK positions (SA)</td><td>UDP multicast 239.2.3.1:6969</td></tr>
+<tr><td class="k">ATAK chat (GeoChat)</td><td>UDP multicast 224.10.10.1:17012</td></tr>
+<tr><td class="k">ManetNode points and geofences</td><td>UDP multicast 239.2.3.2:6970</td></tr>
+<tr><td class="k">Push-to-talk</td><td>UDP multicast from the node's comms settings (default 239.41.0.1:38801), Opus audio</td></tr>
+</table>
+<h3>On the node</h3>
+<table>
+<tr><td class="k"><code>/opt/field-extensions/</code></td><td>The program, web page and <code>selftest.sh</code></td></tr>
+<tr><td class="k"><code>/etc/field-extensions/</code></td><td>Settings (<code>node.conf</code>: light pins) and state</td></tr>
+<tr><td class="k"><code>/etc/init.d/fe-*</code></td><td>The services (fe-web, fe-light, fe-lora, fe-recovery, …)</td></tr>
+</table>
+<h3>API (read)</h3>
+<p><code>GET /api/field/summary</code> (everything on the status page), <code>/hello</code> (name, callsign, version; no sign-in), <code>/nodes</code> (nodes on the mesh), <code>/lora</code>, <code>/services</code>, <code>/card</code>.</p>
+<h3>API (write, needs sign-in)</h3>
+<p><code>POST /api/field/…</code>: <code>led</code>, <code>maintenance</code>, <code>power/auto-power-on</code>, <code>battery/size</code>, <code>battery/calibration</code>, <code>battery/safe-shutdown</code>, <code>battery/long-press</code>, <code>node/identity</code>, <code>node/position</code>, <code>node/position/source</code>, <code>node/reboot</code>, <code>node/shutdown</code>, <code>node/setup-code</code>, <code>node/setup</code>, <code>mesh/share</code>, <code>mesh/join</code>, <code>mesh/join/cancel</code>, <code>eud/internet</code>, <code>lora/mode</code>, <code>lora/profile</code>, <code>lora/radio</code>, <code>lora/channel</code>, <code>lora/node-radios</code>, <code>lora/send</code>, <code>fleet/clear</code>, <code>update/mesh</code>, <code>openmanet/update</code>, <code>recovery/setting</code>.</p>
+</section>
+
+<!-- ============================================================ 16 BUILD -->
+<section class="chapter">
+<h2>16 · Building from source</h2>
+<table>
+<tr><th>Folder</th><th>Build</th></tr>
+<tr><td class="k">node-package/</td><td>The package's files (<code>files/</code>) and opkg control scripts (<code>CONTROL/</code>). Pack them into an .ipk with the usual opkg tools.</td></tr>
+<tr><td class="k">sd-image/</td><td><code>build.sh</code> turns the stock OpenMANET 1.8 image into the ready image. Runs in Docker (arm64 Debian): see its README.</td></tr>
+<tr><td class="k">atak-plugin/</td><td>ATAK CIV SDK plugin. Put it in the SDK's <code>samples/</code>, then <code>./gradlew assembleCivDebug</code>. Regular ATAK needs a TAK.gov-signed build.</td></tr>
+<tr><td class="k">launcher-apps/android/</td><td>ManetNode: <code>./gradlew assembleDebug</code> with JDK 17.</td></tr>
+<tr><td class="k">launcher-apps/ios, desktop, windows</td><td>Simple node launchers for iPhone (Xcode, free Apple ID), Mac (Xcode) and Windows (PowerShell, nothing to install).</td></tr>
+<tr><td class="k">node-installer/</td><td>The Mac and Windows install scripts.</td></tr>
+<tr><td class="k">field-card/</td><td>The one-page field card (HTML and PDF).</td></tr>
+</table>
+<p class="small" style="margin-top:20pt">Third-party software keeps its own license: ATAK CIV SDK (TAK Product Center terms), OpenMANET / OpenWrt (GPL-2.0), Meshtastic protobuf definitions (GPL-3.0). PortableTAK is a separate project.</p>
+</section>
+
+<script>
+// Light pattern chart (Figure 6): each row is 10 s; segments [start, length] lit.
+(function(){
+  const rows = [
+    ["Purple", "Mesh + internet", "#b56cff", [[0,10]]],
+    ["Green", "Mesh only", "#00e676", [[0,10]]],
+    ["Cyan", "Internet only", "#00e5ff", [[0,10]]],
+    ["Blue slow blink", "LoRa only", "#4d8bff", [[0,1],[2,1],[4,1],[6,1],[8,1]]],
+    ["Amber", "No links", "#ffb300", [[0,10]]],
+    ["White", "Maintenance", "#ffffff", [[0,10]]],
+    ["Red solid", "Starting / fault", "#ff3b4d", [[0,10]]],
+    ["Red quick blink", "Shutting down", "#ff3b4d", [[0,.2],[1,.2],[2,.2],[3,.2],[4,.2],[5,.2],[6,.2],[7,.2],[8,.2],[9,.2]]],
+    ["Red pulse", "Battery < 20 %", "#ff3b4d", "pulse"],
+    ["Red fast blink", "Battery < 10 %", "#ff3b4d", [[0,.5],[1,.5],[2,.5],[3,.5],[4,.5],[5,.5],[6,.5],[7,.5],[8,.5],[9,.5]]],
+    ["GPS flash", "over any colour", "gps", null],
+    ["Charging 41–60 %", "3 green blinks", "charge", null],
+  ];
+  const svg = document.getElementById('ledchart'), ns = 'http://www.w3.org/2000/svg';
+  const X0 = 220, W = 470, top = 46, H = 40;
+  function el(t, a, txt){ const e = document.createElementNS(ns, t); for (const k in a) e.setAttribute(k, a[k]); if (txt) e.textContent = txt; svg.appendChild(e); return e; }
+  el('rect', {width:720, height:560, rx:10, fill:'#0a1216', stroke:'#12434a'});
+  for (let s = 0; s <= 10; s++) { const x = X0 + s * W / 10;
+    el('line', {x1:x, y1:top-10, x2:x, y2:top + rows.length*H - 6, stroke:'#173038'});
+    el('text', {x:x, y:top-16, fill:'#8fa7b2', 'text-anchor':'middle', 'font-size':10}, s + ' s'); }
+  rows.forEach((r, i) => {
+    const y = top + i * H;
+    el('text', {x:20, y:y+15, fill:'#fff', 'font-weight':'bold'}, r[0]);
+    el('text', {x:20, y:y+30, fill:'#8fa7b2', 'font-size':10.5}, r[1]);
+    el('rect', {x:X0, y:y+6, width:W, height:22, rx:4, fill:'#05080a', stroke:'#173038'});
+    const seg = (a, b, c, op) => el('rect', {x:X0 + a*W/10, y:y+8, width:Math.max(b*W/10, 2), height:18, rx:3, fill:c, opacity: op||1});
+    if (r[2] === 'gps') { seg(0, 10, '#b56cff', .9); seg(0, 2, '#4d8bff'); el('text',{x:X0+W*0.22,y:y+21,fill:'#05080a','font-size':10},'2 s blue every ~10 s'); }
+    else if (r[2] === 'charge') { seg(0, 10, '#00e676', .35); [0.6,1.6,2.6].forEach(t => seg(t, .4, '#00e676')); el('text',{x:X0+W*0.38,y:y+21,fill:'#d9e6ed','font-size':10},'steady colour, 1 green blink per 20 %, every 10 s'); }
+    else if (r[3] === 'pulse') { seg(0, 10, '#b56cff', .35); seg(0, .6, '#ff3b4d'); el('text',{x:X0+W*0.2,y:y+21,fill:'#d9e6ed','font-size':10},'red pulse every 10 s over the network colour'); }
+    else r[3].forEach(p => seg(p[0], p[1], r[2]));
+  });
+  // priority ladder (Figure 7)
+  const lad = [["Fault","#ff3b4d"],["Shutting down","#ff3b4d"],["Battery warning","#ff3b4d"],["Maintenance","#ffffff"],["LoRa only","#4d8bff"],["Mesh (purple / green)","#b56cff"],["Internet only / none","#00e5ff"],["Starting","#ff3b4d"]];
+  const g = document.getElementById('ladder');
+  lad.forEach((l, i) => { const x = 20 + i * 86;
+    const r = document.createElementNS(ns,'rect'); Object.entries({x:x, y:30, width:80, height:66, rx:8, fill:'#05080a', stroke:l[1], 'stroke-width':2}).forEach(([k,v])=>r.setAttribute(k,v)); g.appendChild(r);
+    const c = document.createElementNS(ns,'circle'); Object.entries({cx:x+40, cy:52, r:9, fill:l[1]}).forEach(([k,v])=>c.setAttribute(k,v)); g.appendChild(c);
+    const words = l[0].split(' ');
+    words.reduce((acc,w)=>{ if (acc.length && (acc[acc.length-1]+' '+w).length < 12) acc[acc.length-1]+=' '+w; else acc.push(w); return acc; }, []).forEach((line, j) => {
+      const t = document.createElementNS(ns,'text'); Object.entries({x:x+40, y:76+j*12, fill:'#d9e6ed', 'text-anchor':'middle', 'font-size':10}).forEach(([k,v])=>t.setAttribute(k,v)); t.textContent = line; g.appendChild(t); });
+  });
+})();
+</script>
+</body></html>

@@ -1,0 +1,12 @@
+Package: field-extensions
+Version: 1:1.0.9
+Depends: python3-light, python3-urllib, python3-email, python3-ctypes, python3-codecs, python3-openssl
+Source: field-extensions/installer
+Section: utils
+Maintainer: Field Extension
+Architecture: all
+Installed-Size: 634880
+Description: Field Extension for OpenMANET
+ Status web page and API on port 8787, PiSugar battery, status light driver and
+ phone internet helper. After install it runs a self-test; results are kept in
+ /tmp/field-extensions-selftest.txt and /opt/field-extensions/selftest.sh runs it again.

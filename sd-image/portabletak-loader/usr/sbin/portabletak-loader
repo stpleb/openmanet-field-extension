@@ -1,0 +1,153 @@
+#!/bin/sh
+# PortableTAK loader for OpenWrt/OpenMANET nodes.
+# Installs or updates PortableTAK on this node from a plugged-in PortableTAK drive,
+# but only a node package signed with the PortableTAK release key
+# (/etc/portabletak/loader.pub, checked with OpenWrt's usign). Then starts
+# PortableTAK. A node never downgrades, and nothing changes while a cartridge runs.
+#   portabletak-loader scan      (run by /etc/hotplug.d/block/10-portabletak-loader)
+#   portabletak-loader status
+PUB=/etc/portabletak/loader.pub
+WORK=/tmp/portabletak-loader
+MNT="$WORK/mnt"
+FAT="$WORK/fat"
+MARK=/tmp/portabletak/hotplug-start
+LOG=/tmp/portabletak/loader.log
+
+log() { logger -t portabletak-loader "$*"; echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" >> "$LOG"; }
+installed_version() { cat /usr/local/portabletak/VERSION 2>/dev/null || echo none; }
+cartridge_running() { awk '$2=="/mnt/asgard"{f=1} END{exit !f}' /proc/mounts; }
+# Versions are YYYY.MM.DD: compare as text.
+newer() { awk -v a="$1" -v b="$2" 'BEGIN { exit !((a "") > (b "")) }'; }
+field() { sed -n "s/^$1=//p" "$WORK/node-package.manifest" | head -n 1; }
+
+start_portabletak()
+{
+    if ls /etc/rc.d/S*portabletak-autoload >/dev/null 2>&1 && [ -x /usr/local/portabletak/bin/portabletak-boot ]; then
+        log "starting PortableTAK from the drive"
+        /usr/local/portabletak/bin/portabletak-boot
+    fi
+}
+
+# Unmount the drive's partitions (Linux and Start Here) if mounted.
+release()
+{
+    grep -q " $MNT " /proc/mounts && umount "$MNT"
+    grep -q " $FAT " /proc/mounts && umount "$FAT"
+    return 0
+}
+
+finish()
+{
+    release
+    rm -rf "$WORK"
+    rm -f "$MARK"
+    exit "${1:-0}"
+}
+
+# The drive partition holding a node package: mounted read-only at $MNT.
+find_package()
+{
+    for dev in ${PT_LOADER_DEVICES:-/dev/sd[a-z][0-9]*}; do    # PT_LOADER_DEVICES: tests only
+        [ -b "$dev" ] || [ -n "${PT_LOADER_DEVICES:-}" ] || continue
+        grep -q "^$dev " /proc/mounts && continue
+        mount -t ext4 -o "ro,noload${PT_LOADER_DEVICES:+,loop}" "$dev" "$MNT" 2>/dev/null || continue
+        if [ -f "$MNT/portabletak/node/node-package.manifest" ]; then
+            echo "$dev"
+            return 0
+        fi
+        umount "$MNT"
+    done
+    return 1
+}
+
+# The drive's "Start here" partition (FAT) when it holds a node package: mounted
+# read-only at $FAT. A Start Here refreshed on a Mac or PC carries the newer package.
+find_start_here_package()
+{
+    for dev in ${PT_LOADER_FAT_DEVICES:-/dev/sd[a-z][0-9]*}; do    # PT_LOADER_FAT_DEVICES: tests only
+        [ -b "$dev" ] || [ -n "${PT_LOADER_FAT_DEVICES:-}" ] || continue
+        grep -q "^$dev " /proc/mounts && continue
+        mount -t vfat -o "ro${PT_LOADER_FAT_DEVICES:+,loop}" "$dev" "$FAT" 2>/dev/null || continue
+        if [ -f "$FAT/.portabletak/node/node-package.manifest" ]; then
+            echo "$dev"
+            return 0
+        fi
+        umount "$FAT"
+    done
+    return 1
+}
+
+scan()
+{
+    mkdir -p /tmp/portabletak "$MNT" "$FAT"
+    sleep 5                                   # let every partition of the drive appear
+    if cartridge_running; then log "a cartridge is already running; nothing to do"; finish 0; fi
+    DEV="$(find_package)" && D="$MNT/portabletak/node"
+    if FDEV="$(find_start_here_package)"; then
+        FV="$(sed -n 's/^version=//p' "$FAT/.portabletak/node/node-package.manifest" | head -n 1)"
+        LV="$( [ -n "$DEV" ] && sed -n 's/^version=//p' "$D/node-package.manifest" | head -n 1)"
+        if [ -z "$DEV" ] || newer "$FV" "$LV"; then
+            DEV="$FDEV"; D="$FAT/.portabletak/node"
+        fi
+    fi
+    [ -n "$DEV" ] || { release; start_portabletak; finish 0; }
+    cp "$D/node-package.manifest" "$D/node-package.manifest.sig" "$WORK/" 2>/dev/null ||
+        { log "drive $DEV: node package files unreadable"; release; start_portabletak; finish 1; }
+    VERSION="$(field version)"; HAVE="$(installed_version)"
+    if [ "$HAVE" != none ] && ! newer "$VERSION" "$HAVE"; then
+        log "drive $DEV has PortableTAK $VERSION; this node has $HAVE (up to date)"
+        release; start_portabletak; finish 0
+    fi
+    if ! usign -V -q -m "$WORK/node-package.manifest" -p "$PUB" -x "$WORK/node-package.manifest.sig"; then
+        log "REFUSED drive $DEV: node package is not signed with the PortableTAK release key"
+        release; start_portabletak; finish 1
+    fi
+    if [ "$(field arch)" != "$(uname -m)" ]; then
+        log "REFUSED drive $DEV: package is for $(field arch), this node is $(uname -m)"
+        release; start_portabletak; finish 1
+    fi
+    NEED=$(( $(wc -c < "$D/node-package.tar.gz") * 4 / 1024 ))
+    FREE=$(df -k /tmp | awk 'NR==2 {print $4}')
+    if [ "$FREE" -lt "$NEED" ]; then
+        log "drive $DEV: not enough free memory to install (${FREE} KB free, ${NEED} KB needed)"
+        release; start_portabletak; finish 1
+    fi
+    log "drive $DEV: installing PortableTAK $VERSION (this node has $HAVE)"
+    cp "$D/node-package.tar.gz" "$WORK/package.tar.gz" || { log "copy failed"; release; finish 1; }
+    release
+    [ "$(sha256sum "$WORK/package.tar.gz" | awk '{print $1}')" = "$(field sha256)" ] ||
+        { log "REFUSED drive $DEV: package does not match its signed checksum"; start_portabletak; finish 1; }
+    mkdir -p "$WORK/x"
+    tar -xzf "$WORK/package.tar.gz" -C "$WORK/x" || { log "package could not be unpacked"; start_portabletak; finish 1; }
+    rm -f "$WORK/package.tar.gz"
+    INSTALLER="$(ls "$WORK"/x/*/install.sh 2>/dev/null | head -n 1)"
+    [ -n "$INSTALLER" ] || { log "package has no installer"; start_portabletak; finish 1; }
+    if sh "$INSTALLER" > "$WORK/install.log" 2>&1 && grep -q PORTABLETAK_INSTALL=COMPLETE "$WORK/install.log"; then
+        log "PortableTAK $VERSION installed"
+        cp "$WORK/install.log" /tmp/portabletak/loader-install.log
+        if [ "$HAVE" = none ]; then
+            /etc/init.d/portabletak-autoload enable
+            log "first install on this node: autoload enabled (PortableTAK starts whenever a drive is plugged in)"
+        fi
+    else
+        cp "$WORK/install.log" /tmp/portabletak/loader-install.log
+        log "install of $VERSION FAILED ($(grep -o 'PORTABLETAK_INSTALL_ERROR=[a-z_]*' "$WORK/install.log" | head -n 1)); see /tmp/portabletak/loader-install.log"
+    fi
+    start_portabletak
+    finish 0
+}
+
+case "${1:-}" in
+    scan)
+        # Run from a copy: installing replaces this file.
+        if [ "${PT_LOADER_COPY:-}" != 1 ]; then
+            mkdir -p "$WORK"; cp "$0" "$WORK/loader.sh"
+            PT_LOADER_COPY=1 exec sh "$WORK/loader.sh" scan
+        fi
+        scan ;;
+    status)
+        echo "installed=$(installed_version)"
+        ls /etc/rc.d/S*portabletak-autoload >/dev/null 2>&1 && echo "autoload=enabled" || echo "autoload=disabled"
+        [ -f "$LOG" ] && tail -n 10 "$LOG" ;;
+    *) echo "usage: portabletak-loader scan|status" >&2; exit 2 ;;
+esac

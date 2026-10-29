@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Field Extension panel, condensed from the node web UI: PTT, STATUS (with health), SET and LORA
+     pages (filled in by FieldPanel) above a tab bar. Colours follow web/style.css. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/fe_bg">
+
+  <FrameLayout android:layout_width="match_parent" android:layout_height="0dp"
+      android:layout_weight="1">
+    <ScrollView android:id="@+id/fe_page_login" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:visibility="gone">
+      <LinearLayout android:id="@+id/fe_login_box" android:layout_width="match_parent"
+          android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp"/>
+    </ScrollView>
+    <ScrollView android:id="@+id/fe_page_status" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+          android:orientation="vertical">
+        <LinearLayout android:id="@+id/fe_status_box" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical" android:padding="10dp"/>
+        <LinearLayout android:id="@+id/fe_health_box" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical"
+            android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingBottom="10dp"/>
+      </LinearLayout>
+    </ScrollView>
+    <ScrollView android:id="@+id/fe_page_settings" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:visibility="gone">
+      <LinearLayout android:id="@+id/fe_settings_box" android:layout_width="match_parent"
+          android:layout_height="wrap_content" android:orientation="vertical" android:padding="10dp"/>
+    </ScrollView>
+    <ScrollView android:id="@+id/fe_page_ptt" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:visibility="gone">
+      <LinearLayout android:id="@+id/fe_ptt_box" android:layout_width="match_parent"
+          android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal"
+          android:padding="10dp"/>
+    </ScrollView>
+    <ScrollView android:id="@+id/fe_page_lora" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:visibility="gone">
+      <LinearLayout android:id="@+id/fe_lora_box" android:layout_width="match_parent"
+          android:layout_height="wrap_content" android:orientation="vertical" android:padding="10dp"/>
+    </ScrollView>
+  </FrameLayout>
+
+  <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/fe_line"/>
+  <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
+      android:orientation="horizontal" android:background="@color/fe_panel">
+    <TextView style="@style/FeTab" android:id="@+id/fe_tab_ptt" android:text="PTT"/>
+    <TextView style="@style/FeTab" android:id="@+id/fe_tab_status" android:text="STATUS"/>
+    <TextView style="@style/FeTab" android:id="@+id/fe_tab_lora" android:text="LORA"/>
+    <TextView style="@style/FeTab" android:id="@+id/fe_tab_settings" android:text="SET"/>
+  </LinearLayout>
+</LinearLayout>

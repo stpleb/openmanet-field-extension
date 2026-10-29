@@ -1,0 +1,23 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.manetnode.launcher'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'com.manetnode.launcher'
+        minSdk 26
+        targetSdk 34
+        versionCode 59
+        versionName '8.3'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    lint { abortOnError false; checkReleaseBuilds false }
+}
+
+dependencies {
+    implementation 'com.google.zxing:core:3.5.3'
+    implementation 'org.osmdroid:osmdroid-android:6.1.20'   // MAP tab (OpenStreetMap, tiles cached for offline)   // team-channel share QR code, as in the ATAK plugin
+}

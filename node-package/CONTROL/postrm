@@ -1,0 +1,12 @@
+#!/bin/sh
+# field-extensions 1:1.0.9 postrm: on removal only, drop the boot hook and the
+# keep-on-firmware-update lines. /etc/field-extensions (settings) and the red power-on
+# light lines in config.txt are left as they are.
+[ -n "${IPKG_INSTROOT}" ] && exit 0
+[ "$1" = remove ] || exit 0
+[ -f /etc/rc.local ] && sed -i '/field-extensions boot hook/d' /etc/rc.local
+[ -f /etc/sysupgrade.conf ] && sed -i -e '/^\/opt\/field-extensions\/$/d' \
+	-e '/^\/etc\/init\.d\/field-extensions$/d' -e '/^\/etc\/rc\.d\/S99field-extensions$/d' \
+	/etc/sysupgrade.conf
+rm -f /tmp/field-extensions-selftest.txt /opt/field-extensions/package.ipk /opt/field-extensions/package.json
+exit 0

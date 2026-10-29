@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05080a">
+<title>Field Extension</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Field Ext">
+</head>
+<body>
+<div class="shell">
+<header class="header">
+ <div class="brand-row"><img class="logo" src="/logo.svg" alt=""><div class="brand"><h1 id="node">Node</h1><p class="subtitle"><span>OpenMANET</span><span>Field Extension</span></p></div></div>
+ <div class="header-right">
+  <div class="uptime">Uptime: <span id="uptime" class="mono">--</span></div>
+  <div id="health" class="health"><span class="health-dot" aria-hidden="true"></span><span id="health-text">Connecting…</span></div>
+  <div class="uptime"><span id="nodes" class="mono">--</span></div>
+ </div>
+</header>
+<div class="bar"><p id="updated" role="status" aria-live="polite">Connecting…</p><div class="bar-btns"><a class="linkbtn" href="/nodes">Nodes</a><a id="openmanet" class="linkbtn" href="/" target="_blank" rel="noopener">OpenMANET</a><button id="refresh" type="button">Refresh</button></div></div>
+
+<main>
+ <h2 class="sr-only">Node status</h2>
+ <div id="tiles" class="status-grid"></div>
+
+ <section class="led-panel" aria-labelledby="h-led">
+  <div class="led-main">
+   <h2 id="h-led" class="section-title">Status LED (Automatic)</h2>
+   <div class="led-content">
+    <div id="led-orb" class="led-orb" aria-hidden="true"></div>
+    <div><div id="led-name" class="led-name">--</div><div id="led-reason" class="led-reason">--</div><div id="led-alert" class="led-alert"></div></div>
+   </div>
+   <p class="led-note">LED colour reflects network and system status. Blue pulses indicate GPS fix. Red pulses indicate low battery. White means maintenance: the node is being updated or worked on, so don't unplug it. Blue slow blinks mean only LoRa is left. While charging, the colour stays steady and every 10 seconds it blinks green once per 20% of charge; the blinks stop when full.</p>
+  </div>
+  <div id="led-controls" class="led-controls"></div>
+ </section>
+
+ <section class="table" aria-labelledby="h-services"><h2 id="h-services" class="table-head">Services</h2><div id="services"></div></section>
+ <section class="table" aria-labelledby="h-health"><h2 id="h-health" class="table-head">Node Health</h2><div id="health-rows"></div></section>
+ <section class="table" aria-labelledby="h-backhaul"><h2 id="h-backhaul" class="table-head">Backhaul</h2><div id="backhaul"></div></section>
+ <section class="table" aria-labelledby="h-eud"><h2 id="h-eud" class="table-head">Phone Internet</h2><div id="eud"></div></section>
+ <section class="table" aria-labelledby="h-lora"><h2 id="h-lora" class="table-head">LoRa (Meshtastic)</h2><div id="lora"><p class="empty">Reading…</p></div></section>
+ <section class="table" aria-labelledby="h-maint"><h2 id="h-maint" class="table-head">Maintenance</h2><div id="maintenance"></div></section>
+ <section class="table" aria-labelledby="h-updates"><h2 id="h-updates" class="table-head">OpenMANET Updates</h2><div id="updates"><p class="empty">Reading…</p></div></section>
+
+ <div id="strip" class="foot-strip"></div>
+</main>
+<footer>Missing readings mean unavailable or unverified, never healthy by default. Changes need the node password.</footer>
+</div>
+<script src="/qrcode.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+Field Extension for OpenMANET - installing on an Android phone
+==============================================================
+
+All files are attached to the v1.0 release.
+
+ATAK plugin (ManetNode FE)
+  1. Install regular ATAK CIV 5.7 or 5.8 (Play Store or TAK.gov).
+  2. Copy the matching plugin APK to the phone:
+       FieldExtension-OpenMANET-v1.0-ATAK-plugin-ATAK-5.7.0.apk  for ATAK 5.7
+       FieldExtension-OpenMANET-v1.0-ATAK-plugin-ATAK-5.8.0.apk  for ATAK 5.8
+  3. Tap the APK to install it (allow installs from your file manager if asked).
+  4. In ATAK: Settings > Tool Preferences > Plugins (or the Plugins list), load ManetNode FE.
+  5. Join a node's Wi-Fi and open ManetNode FE from the Tools menu.
+
+ManetNode app
+  1. Copy FieldExtension-OpenMANET-v1.0-ManetNode-Android.apk to the phone and tap it.
+  2. Allow "Install unknown apps" for your file manager when Android asks.
+  3. Open ManetNode and allow location and microphone (for the map and push-to-talk).
+
+With a USB cable instead (adb, from a computer):
+  adb install FieldExtension-OpenMANET-v1.0-ManetNode-Android.apk
+  adb install FieldExtension-OpenMANET-v1.0-ATAK-plugin-ATAK-5.7.0.apk

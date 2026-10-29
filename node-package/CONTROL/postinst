@@ -1,0 +1,28 @@
+#!/bin/sh
+# field-extensions 1:1.0.9 postinst: turn the service on and check it.
+[ -n "${IPKG_INSTROOT}" ] && exit 0
+FE=/opt/field-extensions
+
+echo "Field Extension 1:1.0.9: setting up..."
+chmod 0755 /etc/init.d/field-extensions /etc/init.d/field-power-off "$FE/selftest.sh" "$FE/fe-setup.sh" 2>/dev/null
+mkdir -p /etc/field-extensions/state
+"$FE/fe-setup.sh" sysupgrade-conf
+"$FE/fe-setup.sh" rc-local
+"$FE/fe-setup.sh" config-txt
+"$FE/fe-setup.sh" keep-package
+
+if "$FE/fe-setup.sh" python-ok; then
+	/etc/init.d/field-extensions enable
+	/etc/init.d/field-power-off enable
+	/etc/init.d/field-extensions restart
+	echo "Running the self-test (up to 20 seconds)..."
+	FE_SELFTEST_WAIT=20 "$FE/selftest.sh"
+	echo "Field Extension is installed. Open http://<node address>:8787/ on your phone."
+else
+	# opkg is still running (it holds its lock), so Python is installed right after it finishes.
+	echo "Python is not on this node yet. It is being installed in the background now"
+	echo "(1 to 3 minutes). Then open http://<node address>:8787/ on your phone."
+	echo "The self-test result will be in /tmp/field-extensions-selftest.txt."
+	( "$FE/fe-setup.sh" after-install ) </dev/null >/dev/null 2>&1 &
+fi
+exit 0

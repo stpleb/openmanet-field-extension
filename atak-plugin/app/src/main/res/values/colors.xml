@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="white">#ffffff</color>
+    <color name="darker_gray">#121212</color>
+    <color name="heading_yellow">#dfb228</color>
+
+    <!-- Field Extension web UI palette (web/style.css) -->
+    <color name="fe_bg">#05080a</color>
+    <color name="fe_panel">#0a0f13</color>
+    <color name="fe_line">#4700e5ff</color>
+    <color name="fe_text">#d9e6ed</color>
+    <color name="fe_sub">#8fa7b2</color>
+    <color name="fe_cyan">#00e5ff</color>
+    <color name="fe_tab_active">#1400e5ff</color>
+</resources>
